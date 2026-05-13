@@ -1,0 +1,378 @@
+---
+import '../styles/global.css';
+import { categories, prompts } from '../data/prompts';
+
+const categoryCounts = prompts.reduce<Record<string, number>>((acc, prompt) => {
+  acc[prompt.category] = (acc[prompt.category] ?? 0) + 1;
+  return acc;
+}, {});
+
+const totalPrompts = prompts.length;
+const canonicalUrl = 'https://carloslimadv.github.io/biblioteca-prompts-juridicos/';
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta
+      name="description"
+      content="Biblioteca pública com 90 prompts jurídicos para ChatGPT e Codex, em pt-BR, adaptados para GPT-5.5 e para a advocacia brasileira."
+    />
+    <meta property="og:title" content="Manual de Prompts Jurídicos para ChatGPT e Codex" />
+    <meta property="og:description" content="90 prompts jurídicos com regras de validação, revisão humana e uso prático no Codex." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href={`${baseUrl}favicon.svg`} />
+    <link rel="icon" href={`${baseUrl}favicon.ico`} />
+    <title>Manual de Prompts Jurídicos para ChatGPT e Codex</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#biblioteca">Ir para a biblioteca</a>
+
+    <header class="site-header" aria-label="Cabeçalho principal">
+      <a class="brand" href="#topo" aria-label="Manual de Prompts Jurídicos">
+        <span class="brand-mark" aria-hidden="true">§</span>
+        <span>Manual de Prompts Jurídicos</span>
+      </a>
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="#biblioteca">Biblioteca</a>
+        <a href="#codex">Codex</a>
+        <a href="#boas-praticas">Boas práticas</a>
+        <a href="#limites">Limites</a>
+      </nav>
+    </header>
+
+    <main id="topo" data-prompts-url={`${baseUrl}prompts.json`}>
+      <section class="hero section-band" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">ChatGPT, Codex e GPT-5.5 para advocacia brasileira</p>
+          <h1 id="hero-title">Manual de Prompts Jurídicos para ChatGPT e Codex</h1>
+          <p class="hero-lead">
+            Uma biblioteca pública com 90 prompts jurídicos estruturados para produzir trabalho útil, verificável e pronto para revisão humana.
+          </p>
+          <div class="hero-actions" aria-label="Ações principais">
+            <a class="button primary" href="#biblioteca">Explorar biblioteca</a>
+            <a class="button secondary" href="#guia">Ver guia de uso</a>
+          </div>
+        </div>
+
+        <aside class="hero-visual" aria-label="Exemplo de prompt estruturado">
+          <div class="visual-head">
+            <span>prompt jurídico</span>
+            <strong>reasoning alto</strong>
+          </div>
+          <div class="visual-body">
+            <p><b>Objetivo</b> revisar fatos, provas, inferências, lacunas e riscos.</p>
+            <p><b>Validação</b> não inventar lei, jurisprudência, prazo, valor ou documento.</p>
+            <p><b>Parada</b> pedir complementação quando faltar fonte indispensável.</p>
+          </div>
+          <div class="visual-grid" aria-hidden="true">
+            <span>fato</span>
+            <span>prova</span>
+            <span>inferência</span>
+            <span>risco</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="intro section-narrow" aria-labelledby="intro-title">
+        <div>
+          <p class="eyebrow">Por que existe</p>
+          <h2 id="intro-title">Prompts melhores reduzem retrabalho, mas não substituem advocacia.</h2>
+        </div>
+        <p>
+          A biblioteca foi desenhada para tarefas reais de escritório: contratos, peças, jurisprudência, atendimento, gestão, marketing jurídico, controladoria e tráfego. Cada prompt força contexto, critérios de sucesso, limites e revisão antes do uso profissional.
+        </p>
+      </section>
+
+      <section class="benefits section-band" aria-labelledby="benefits-title">
+        <div class="section-heading">
+          <p class="eyebrow">Benefícios</p>
+          <h2 id="benefits-title">Feito para advogados que precisam de velocidade com lastro.</h2>
+        </div>
+        <div class="benefit-list">
+          <article>
+            <span>01</span>
+            <h3>Menos prompt solto</h3>
+            <p>Estrutura fixa com papel, objetivo, contexto, critérios de sucesso, restrições, saída e regras de parada.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Mais controle jurídico</h3>
+            <p>Instruções explícitas contra invenção de fatos, jurisprudência, dispositivos, prazos, valores e documentos.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Uso direto no Codex</h3>
+            <p>Cada prompt indica quando virar skill, instrução persistente, rotina de repositório ou automação supervisionada.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="library section-band" id="biblioteca" aria-labelledby="library-title">
+        <div class="library-top">
+          <div>
+            <p class="eyebrow">Biblioteca</p>
+            <h2 id="library-title">{totalPrompts} prompts jurídicos para copiar, adaptar e validar.</h2>
+          </div>
+          <p>
+            Use a busca para encontrar uma tarefa ou filtre por área do escritório. Abra um card para ver prompt completo, exemplo, variações e orientação para Codex.
+          </p>
+        </div>
+
+        <div class="library-tools" aria-label="Ferramentas da biblioteca">
+          <label class="search-box">
+            <span>Buscar prompt</span>
+            <input id="prompt-search" type="search" placeholder="Ex.: contrato, sentença, WhatsApp, tráfego" autocomplete="off" />
+          </label>
+          <div class="filter-list" role="group" aria-label="Filtros por categoria">
+            {
+              categories.map((category) => (
+                <button
+                  class="filter-chip"
+                  type="button"
+                  data-filter={category.id}
+                  aria-pressed={category.id === 'all' ? 'true' : 'false'}
+                >
+                  <span>{category.label}</span>
+                  <small>{category.id === 'all' ? totalPrompts : categoryCounts[category.id] ?? 0}</small>
+                </button>
+              ))
+            }
+          </div>
+          <p class="results-count" id="results-count" aria-live="polite">{totalPrompts} prompts encontrados</p>
+        </div>
+
+        <div class="prompt-grid" id="prompt-grid">
+          {
+            prompts.map((prompt, index) => (
+              <article
+                class="prompt-card"
+                data-prompt-id={prompt.id}
+                data-category={prompt.category}
+                data-search={`${prompt.title} ${prompt.categoryLabel} ${prompt.purpose} ${prompt.example} ${prompt.variations.join(' ')}`}
+              >
+                <details>
+                  <summary>
+                    <span class="prompt-index">{String(index + 1).padStart(2, '0')}</span>
+                    <span class="summary-copy">
+                      <span class="card-meta">
+                        <span>{prompt.categoryLabel}</span>
+                        <span class={`reasoning reasoning-${prompt.reasoning}`}>reasoning {prompt.reasoning}</span>
+                      </span>
+                      <strong>{prompt.title}</strong>
+                      <em>{prompt.purpose}</em>
+                    </span>
+                  </summary>
+                  <div class="card-content">
+                    <div class="prompt-actions">
+                      <span>Prompt completo</span>
+                      <button class="copy-button" type="button" data-copy={`prompt-${prompt.id}`} data-prompt-id={prompt.id}>Copiar prompt</button>
+                    </div>
+                    <pre id={`prompt-${prompt.id}`} data-loaded="false">Abra o card para carregar o prompt completo.</pre>
+
+                    <div class="detail-columns">
+                      <section>
+                        <h3>Exemplo de saída</h3>
+                        <p>{prompt.example}</p>
+                      </section>
+                      <section>
+                        <h3>Variações úteis</h3>
+                        <ul>
+                          {prompt.variations.map((variation) => <li>{variation}</li>)}
+                        </ul>
+                      </section>
+                    </div>
+
+                    <section class="codex-note">
+                      <h3>Transformar em rotina no Codex</h3>
+                      <p>{prompt.codex}</p>
+                    </section>
+                  </div>
+                </details>
+              </article>
+            ))
+          }
+        </div>
+
+        <p class="empty-state" id="empty-state" hidden>Nenhum prompt encontrado com esse filtro.</p>
+      </section>
+
+      <section class="guide section-narrow" id="guia" aria-labelledby="guide-title">
+        <div>
+          <p class="eyebrow">Guia</p>
+          <h2 id="guide-title">Como usar com ChatGPT e Codex</h2>
+        </div>
+        <div class="guide-list">
+          <article id="codex">
+            <h3>Uso avulso</h3>
+            <p>Copie o prompt, substitua os campos entre colchetes, anexe documentos quando necessário e peça a resposta em seções. Ideal para uma tarefa pontual.</p>
+          </article>
+          <article>
+            <h3>Rotina permanente</h3>
+            <p>Quando a tarefa se repete, transforme o prompt em instrução persistente, skill ou arquivo de orientação do repositório. Inclua modelos do escritório e critérios de aceite.</p>
+          </article>
+          <article>
+            <h3>Automação supervisionada</h3>
+            <p>No Codex, use automações apenas para tarefas reversíveis ou revisáveis. Produções jurídicas, comunicações externas e decisões estratégicas exigem aprovação humana.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="practices section-band" id="boas-praticas" aria-labelledby="practices-title">
+        <div class="section-heading">
+          <p class="eyebrow">Boas práticas</p>
+          <h2 id="practices-title">A estrutura recomendada para prompts jurídicos.</h2>
+        </div>
+        <div class="practice-grid">
+          <article>
+            <h3>Contexto antes da tarefa</h3>
+            <p>Explique cliente, fase, documentos, objetivo, restrições e o que já foi decidido. Sem contexto, o modelo preenche lacunas por inferência.</p>
+          </article>
+          <article>
+            <h3>Contrato de saída</h3>
+            <p>Defina exatamente as seções esperadas, tamanho, tom e formato. Isso reduz respostas longas, vagas ou difíceis de revisar.</p>
+          </article>
+          <article>
+            <h3>Critérios de sucesso</h3>
+            <p>Diga o que precisa estar verdadeiro para a resposta ser considerada pronta: fonte conferida, riscos listados, lacunas separadas e próxima ação clara.</p>
+          </article>
+          <article>
+            <h3>Regras de parada</h3>
+            <p>Instrua o modelo a parar quando faltar prova, prazo, documento, tribunal, dado financeiro, autorização ou fonte oficial.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="limits section-narrow" id="limites" aria-labelledby="limits-title">
+        <div>
+          <p class="eyebrow">Limites</p>
+          <h2 id="limits-title">IA acelera a preparação. A responsabilidade continua humana.</h2>
+        </div>
+        <div class="limits-copy">
+          <p>
+            Nenhum prompt desta biblioteca autoriza protocolo, envio ao cliente, publicação, campanha ou decisão jurídica sem revisão profissional. O modelo pode errar, omitir, inferir demais ou apresentar fonte aparente como se fosse válida.
+          </p>
+          <ul>
+            <li>Confira legislação, jurisprudência, prazos, valores e citações em fontes oficiais.</li>
+            <li>Proteja sigilo profissional, dados pessoais e documentos sensíveis.</li>
+            <li>Separe fato provado, documento, inferência, lacuna e risco antes de usar a saída.</li>
+            <li>Revise marketing jurídico contra o Código de Ética e o Provimento 205/2021 do CFOAB.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Manual de Prompts Jurídicos para ChatGPT e Codex.</p>
+      <p>Conteúdo adaptado para GPT-5.5, ChatGPT e Codex, com revisão humana obrigatória.</p>
+    </footer>
+
+    <script>
+      const searchInput = document.querySelector('#prompt-search');
+      const filterButtons = [...document.querySelectorAll('[data-filter]')];
+      const cards = [...document.querySelectorAll('.prompt-card')];
+      const count = document.querySelector('#results-count');
+      const empty = document.querySelector('#empty-state');
+      const promptsUrl = document.querySelector('main')?.dataset.promptsUrl ?? 'prompts.json';
+      let promptMapPromise;
+      let activeFilter = 'all';
+
+      async function getPromptMap() {
+        if (!promptMapPromise) {
+          promptMapPromise = fetch(promptsUrl)
+            .then((response) => response.json())
+            .then((items) => new Map(items.map((item) => [item.id, item.prompt])));
+        }
+
+        return promptMapPromise;
+      }
+
+      async function hydratePrompt(card) {
+        const promptId = card?.dataset.promptId;
+        const pre = promptId ? document.getElementById(`prompt-${promptId}`) : null;
+        if (!promptId || !pre || pre.dataset.loaded === 'true') return pre;
+
+        pre.textContent = 'Carregando prompt completo...';
+        const promptMap = await getPromptMap();
+        pre.textContent = promptMap.get(promptId) ?? 'Prompt não encontrado.';
+        pre.dataset.loaded = 'true';
+        return pre;
+      }
+
+      function normalize(value) {
+        return value
+          .toString()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase();
+      }
+
+      function applyFilters() {
+        const query = normalize(searchInput?.value ?? '');
+        let visible = 0;
+
+        cards.forEach((card) => {
+          const matchesFilter = activeFilter === 'all' || card.dataset.category === activeFilter;
+          const matchesSearch = !query || normalize(card.dataset.search ?? '').includes(query);
+          const shouldShow = matchesFilter && matchesSearch;
+          card.toggleAttribute('hidden', !shouldShow);
+          if (shouldShow) visible += 1;
+        });
+
+        if (count) count.textContent = `${visible} prompt${visible === 1 ? '' : 's'} encontrado${visible === 1 ? '' : 's'}`;
+        if (empty) empty.hidden = visible !== 0;
+      }
+
+      filterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          activeFilter = button.dataset.filter ?? 'all';
+          filterButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+          applyFilters();
+        });
+      });
+
+      searchInput?.addEventListener('input', applyFilters);
+
+      document.querySelectorAll('.prompt-card details').forEach((details) => {
+        details.addEventListener('toggle', () => {
+          if (details.open) hydratePrompt(details.closest('.prompt-card'));
+        });
+      });
+
+      document.querySelectorAll('[data-copy]').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const target = await hydratePrompt(button.closest('.prompt-card'));
+          if (!target) return;
+
+          const text = target.textContent ?? '';
+          try {
+            await navigator.clipboard.writeText(text);
+          } catch {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'fixed';
+            textarea.style.top = '-999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+          }
+          const original = button.textContent;
+          button.textContent = 'Copiado';
+          button.classList.add('copied');
+          window.setTimeout(() => {
+            button.textContent = original;
+            button.classList.remove('copied');
+          }, 1400);
+        });
+      });
+    </script>
+  </body>
+</html>
