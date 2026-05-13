@@ -10,6 +10,8 @@ const categoryCounts = prompts.reduce<Record<string, number>>((acc, prompt) => {
 const totalPrompts = prompts.length;
 const canonicalUrl = 'https://carloslimadv.github.io/biblioteca-prompts-juridicos/';
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const heroImage =
+  'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=84';
 ---
 
 <!doctype html>
@@ -26,6 +28,9 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
     <meta property="og:description" content="90 prompts jurídicos com regras de validação, revisão humana e uso prático no Codex." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={heroImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#123c31" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href={`${baseUrl}favicon.svg`} />
     <link rel="icon" href={`${baseUrl}favicon.ico`} />
@@ -62,6 +67,14 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
         </div>
 
         <aside class="hero-visual" aria-label="Exemplo de prompt estruturado">
+          <figure class="hero-photo">
+            <img
+              src={heroImage}
+              alt="Mesa de trabalho com papéis e caneta para revisão jurídica"
+              loading="eager"
+              decoding="async"
+            />
+          </figure>
           <div class="visual-head">
             <span>prompt jurídico</span>
             <strong>reasoning alto</strong>
@@ -373,6 +386,27 @@ const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_UR
           }, 1400);
         });
       });
+
+      const sections = [...document.querySelectorAll('#biblioteca, #codex, #boas-praticas, #limites')];
+      const navLinks = [...document.querySelectorAll('.nav a')];
+      const linkById = new Map(navLinks.map((link) => [link.getAttribute('href')?.slice(1), link]));
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((entry) => entry.isIntersecting)
+              .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+            if (!visible) return;
+            navLinks.forEach((link) => link.removeAttribute('aria-current'));
+            linkById.get(visible.target.id)?.setAttribute('aria-current', 'page');
+          },
+          { rootMargin: '-24% 0px -62% 0px', threshold: [0.12, 0.28, 0.5] },
+        );
+
+        sections.forEach((section) => observer.observe(section));
+      }
     </script>
   </body>
 </html>
