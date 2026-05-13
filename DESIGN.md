@@ -2,23 +2,23 @@
 
 ## Direção
 
-Landing page pública em registro brand. Visual claro, editorial, jurídico e tecnológico, com densidade controlada para leitura de biblioteca.
+Landing page pública em registro brand. Visual escuro, editorial, jurídico e tecnológico, com densidade controlada para leitura de biblioteca.
 
 ## Cena
 
-Um advogado revisa prompts em um notebook no escritório, em luz natural de fim de tarde, alternando entre análise jurídica cuidadosa e execução prática no Codex.
+Um advogado revisa prompts em uma tela grande no fim do expediente, alternando entre análise jurídica cuidadosa e execução prática no Codex. O dark mode reduz brilho e ajuda na leitura de prompts longos.
 
 ## Paleta
 
-Usar OKLCH. Neutros tintados, verde profundo como cor institucional, cobre como acento editorial e azul petróleo para estados informativos. Evitar preto e branco puros.
+Usar OKLCH. Neutros escuros tintados, verde profundo como cor institucional, cobre como acento editorial e azul petróleo para estados informativos. Evitar preto e branco puros e evitar texturas pontilhadas que concorram com leitura.
 
 ## Tipografia
 
-Fonte de sistema com hierarquia forte, medidas legíveis e títulos grandes apenas no hero. Corpo com largura máxima de leitura entre 65 e 75 caracteres.
+Tipografia editorial com hierarquia forte, medidas legíveis e títulos grandes apenas no hero ou em blocos de seção. Corpo com largura máxima de leitura entre 65 e 75 caracteres.
 
 ## Componentes
 
-Cards de biblioteca com borda completa, cantos discretos, expansão progressiva, botões com estados de foco visíveis e badges pequenos para categoria e reasoning.
+Cards de biblioteca com borda completa, cantos discretos, expansão progressiva, botões com estados de foco visíveis e badges pequenos para categoria e reasoning. Ferramentas de busca e filtros devem permanecer no fluxo da página, sem painel fixo cobrindo a leitura.
 
 ## Movimento
 
