@@ -4,7 +4,6 @@
 [![GitHub Pages](https://img.shields.io/badge/deploy-GitHub%20Pages-123c31?style=flat-square)](https://carloslimadv.github.io/biblioteca-prompts-juridicos/)
 [![pt-BR](https://img.shields.io/badge/idioma-pt--BR-9a5a2e?style=flat-square)](#)
 
-<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="carloslimadv" data-color="#FFDD00" data-emoji="☕"  data-font="Bree" data-text="Compre-me um café" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
 
 Landing page pública para apresentar, explicar e disponibilizar uma biblioteca de 90 prompts jurídicos em português do Brasil, pensada para advogados que usam ChatGPT e Codex com responsabilidade profissional.
 
