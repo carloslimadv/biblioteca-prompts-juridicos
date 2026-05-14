@@ -72,6 +72,7 @@ A interface foi construída para exploração rápida:
 - carregamento sob demanda do prompt completo;
 - cópia rápida do texto;
 - navegação por seções;
+- botão de apoio via Buy Me a Coffee;
 - layout responsivo para consulta em desktop e celular;
 - visual editorial, jurídico e tecnológico, sem estética genérica de ferramenta de IA.
 

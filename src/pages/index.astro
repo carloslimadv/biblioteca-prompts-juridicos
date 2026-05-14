@@ -44,12 +44,35 @@ const heroImage =
         <span class="brand-mark" aria-hidden="true">§</span>
         <span>Manual de Prompts Jurídicos</span>
       </a>
-      <nav class="nav" aria-label="Navegação principal">
-        <a href="#biblioteca">Biblioteca</a>
-        <a href="#codex">Codex</a>
-        <a href="#boas-praticas">Boas práticas</a>
-        <a href="#limites">Limites</a>
-      </nav>
+      <div class="header-actions">
+        <nav class="nav" aria-label="Navegação principal">
+          <a href="#biblioteca">Biblioteca</a>
+          <a href="#codex">Codex</a>
+          <a href="#boas-praticas">Boas práticas</a>
+          <a href="#limites">Limites</a>
+        </nav>
+        <div class="donation-slot" aria-label="Apoie este projeto">
+          <script
+            is:inline
+            type="text/javascript"
+            src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js"
+            data-name="bmc-button"
+            data-slug="carloslimadv"
+            data-color="#FFDD00"
+            data-emoji="☕"
+            data-font="Bree"
+            data-text="Compre-me um café"
+            data-outline-color="#000000"
+            data-font-color="#000000"
+            data-coffee-color="#ffffff"
+          ></script>
+          <noscript>
+            <a class="donation-fallback" href="https://www.buymeacoffee.com/carloslimadv" rel="noopener noreferrer">
+              Compre-me um café
+            </a>
+          </noscript>
+        </div>
+      </div>
     </header>
 
     <main id="topo" data-prompts-url={`${baseUrl}prompts.json`}>
