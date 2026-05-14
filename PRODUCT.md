@@ -1,4 +1,4 @@
-# Manual de Prompts Jurídicos para ChatGPT e Codex
+# Manual de prompts jurídicos para ChatGPT e Codex
 
 register: brand
 

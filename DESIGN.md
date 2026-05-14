@@ -2,11 +2,11 @@
 
 ## Direção
 
-Landing page pública em registro brand. Visual escuro, editorial, jurídico e tecnológico, com densidade controlada para leitura de biblioteca.
+Página pública em registro brand. Visual escuro, editorial, jurídico e tecnológico, com densidade controlada para leitura de biblioteca.
 
 ## Cena
 
-Um advogado revisa prompts em uma tela grande no fim do expediente, alternando entre análise jurídica cuidadosa e execução prática no Codex. O dark mode reduz brilho e ajuda na leitura de prompts longos.
+Um advogado revisa prompts em uma tela grande no fim do expediente, alternando entre análise jurídica cuidadosa e execução prática no Codex. O modo escuro reduz brilho e ajuda na leitura de prompts longos.
 
 ## Paleta
 
@@ -18,7 +18,7 @@ Tipografia editorial com hierarquia forte, medidas legíveis e títulos grandes 
 
 ## Componentes
 
-Cards de biblioteca com borda completa, cantos discretos, expansão progressiva, botões com estados de foco visíveis e badges pequenos para categoria e reasoning. Ferramentas de busca e filtros devem permanecer no fluxo da página, sem painel fixo cobrindo a leitura.
+Itens de biblioteca com borda completa, cantos discretos, expansão progressiva, botões com estados de foco visíveis e marcadores pequenos para categoria e raciocínio recomendado. Ferramentas de busca e filtros devem permanecer no fluxo da página, sem painel fixo cobrindo a leitura.
 
 ## Movimento
 

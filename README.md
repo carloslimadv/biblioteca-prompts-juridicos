@@ -1,11 +1,11 @@
-# Manual de Prompts Jurídicos para ChatGPT e Codex
+# Manual de prompts jurídicos para ChatGPT e Codex
 
 [![Astro](https://img.shields.io/badge/Astro-6-1b1b1b?style=flat-square)](https://astro.build/)
 [![GitHub Pages](https://img.shields.io/badge/deploy-GitHub%20Pages-123c31?style=flat-square)](https://carloslimadv.github.io/biblioteca-prompts-juridicos/)
 [![pt-BR](https://img.shields.io/badge/idioma-pt--BR-9a5a2e?style=flat-square)](#)
 
 
-Landing page pública para apresentar, explicar e disponibilizar uma biblioteca de 90 prompts jurídicos em português do Brasil, pensada para advogados que usam ChatGPT e Codex com responsabilidade profissional.
+Página pública para apresentar, explicar e disponibilizar uma biblioteca de 90 prompts jurídicos em português do Brasil, pensada para advogados que usam ChatGPT e Codex com responsabilidade profissional.
 
 **Acesse:** [carloslimadv.github.io/biblioteca-prompts-juridicos](https://carloslimadv.github.io/biblioteca-prompts-juridicos/)
 
@@ -15,24 +15,24 @@ Landing page pública para apresentar, explicar e disponibilizar uma biblioteca 
 
 ## Para que serve
 
-A landing page organiza prompts jurídicos prontos para copiar, adaptar e validar em tarefas reais de escritório. Ela não promete substituir o trabalho do advogado. A proposta é reduzir retrabalho, melhorar a formulação de pedidos para IA e deixar claro onde a revisão humana é obrigatória.
+A página organiza prompts jurídicos prontos para copiar, adaptar e validar em tarefas reais de escritório. Ela não promete substituir o trabalho do advogado. A proposta é reduzir retrabalho, melhorar a formulação de pedidos para IA e deixar claro onde a revisão humana é obrigatória.
 
 Na prática, a página ajuda o usuário a:
 
 - encontrar prompts por área do escritório;
-- entender quando usar ChatGPT e quando transformar uma rotina em skill ou instrução do Codex;
+- entender quando usar ChatGPT e quando transformar uma rotina em instrução persistente ou orientação do Codex;
 - copiar prompts estruturados com objetivo, contexto, critérios de sucesso, restrições e regras de parada;
 - lembrar que fatos, documentos, leis, jurisprudência, valores e prazos precisam ser conferidos antes de uso profissional;
 - separar fato, prova, inferência, lacuna e risco antes de protocolar, enviar ou publicar qualquer resultado.
 
-## O que a landing page entrega
+## O que a página entrega
 
 | Área | Função na página |
 | --- | --- |
-| Hero editorial | Apresenta o manual com posicionamento jurídico, técnico e responsável. |
-| Biblioteca | Lista os 90 prompts em cards expansíveis, com busca, filtros e botão de cópia. |
-| Categorias | Agrupa prompts por jurídico, marketing, comercial, financeiro, gestão, atendimento, operações, controladoria, pessoas, conhecimento, compliance, visual, perfil decisório e tráfego pago. |
-| Reasoning | Indica se a tarefa exige raciocínio baixo, médio ou alto. |
+| Abertura editorial | Apresenta o manual com posicionamento jurídico, técnico e responsável. |
+| Biblioteca | Lista os 90 prompts em itens expansíveis, com busca, filtros e botão de cópia. |
+| Temas | Agrupa prompts por peças e revisão, fatos e documentos, estratégia processual, cliente e atendimento, gestão do escritório, marketing jurídico ético, Codex e automação, pesquisa e validação. |
+| Raciocínio recomendado | Indica se a tarefa exige raciocínio baixo, médio ou alto. |
 | Guia de uso | Explica a diferença entre uso avulso, rotina permanente e automação supervisionada no Codex. |
 | Boas práticas | Resume a estrutura recomendada para prompts jurídicos verificáveis. |
 | Limites | Reforça revisão humana, sigilo, LGPD, ética da OAB e checagem de fontes oficiais. |
@@ -72,12 +72,12 @@ A interface foi construída para exploração rápida:
 
 - busca por palavra-chave;
 - filtros por categoria;
-- cards expansíveis para manter a página escaneável;
+- itens expansíveis para manter a página fácil de percorrer;
 - carregamento sob demanda do prompt completo;
 - cópia rápida do texto;
 - navegação por seções;
 - botão de apoio via Buy Me a Coffee;
-- layout responsivo para consulta em desktop e celular;
+- desenho responsivo para consulta em computador e celular;
 - visual editorial, jurídico e tecnológico, sem estética genérica de ferramenta de IA.
 
 ## Aviso jurídico

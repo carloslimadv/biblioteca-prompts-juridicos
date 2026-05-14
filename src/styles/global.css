@@ -375,6 +375,11 @@ h3 {
   gap: var(--space-sm);
 }
 
+.card-meta {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
 .visual-head span,
 .visual-head strong,
 .card-meta span,
@@ -567,6 +572,20 @@ h3 {
   gap: var(--space-xs);
 }
 
+.filter-group {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.filter-label {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .filter-chip {
   display: inline-flex;
   align-items: center;
@@ -708,16 +727,19 @@ h3 {
   padding: 0.24rem 0.48rem;
 }
 
+.card-meta .reasoning-baixo,
 .reasoning-baixo {
   background: oklch(26% 0.035 210);
   color: var(--petrol);
 }
 
+.card-meta .reasoning-médio,
 .reasoning-médio {
   background: var(--copper-soft);
   color: var(--copper);
 }
 
+.card-meta .reasoning-alto,
 .reasoning-alto {
   background: var(--primary-soft);
   color: var(--primary);
