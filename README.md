@@ -9,6 +9,10 @@ Landing page pública para apresentar, explicar e disponibilizar uma biblioteca 
 
 **Acesse:** [carloslimadv.github.io/biblioteca-prompts-juridicos](https://carloslimadv.github.io/biblioteca-prompts-juridicos/)
 
+<a href="https://www.buymeacoffee.com/carloslimadv" target="_blank" rel="noopener noreferrer">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Compre-me um café" width="210" />
+</a>
+
 ## Para que serve
 
 A landing page organiza prompts jurídicos prontos para copiar, adaptar e validar em tarefas reais de escritório. Ela não promete substituir o trabalho do advogado. A proposta é reduzir retrabalho, melhorar a formulação de pedidos para IA e deixar claro onde a revisão humana é obrigatória.
