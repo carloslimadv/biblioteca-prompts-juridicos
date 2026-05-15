@@ -17,6 +17,8 @@ const displayPrompts = [...prompts].sort((a, b) => {
 });
 const totalPrompts = prompts.length;
 const canonicalUrl = 'https://carloslimadv.github.io/biblioteca-prompts-juridicos/';
+const instagramUrl = 'https://www.instagram.com/carloslimadv/';
+const repositoryUrl = 'https://github.com/carloslimadv/biblioteca-prompts-juridicos';
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 const heroImage =
   'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=84';
@@ -59,6 +61,14 @@ const heroImage =
           <a href="#boas-praticas">Boas práticas</a>
           <a href="#limites">Limites</a>
         </nav>
+        <a class="social-link" href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram de Carlos Lima">
+          <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+            <rect x="3" y="3" width="18" height="18" rx="5" />
+            <circle cx="12" cy="12" r="4" />
+            <circle cx="17.5" cy="6.5" r="1" />
+          </svg>
+          <span>Instagram</span>
+        </a>
         <div class="donation-slot" aria-label="Apoie este projeto">
           <script
             is:inline
@@ -349,8 +359,13 @@ const heroImage =
     </main>
 
     <footer class="site-footer">
-      <p>Manual de prompts jurídicos para ChatGPT e Codex.</p>
-      <p>Conteúdo adaptado para GPT-5.5, ChatGPT e Codex, com revisão humana obrigatória.</p>
+      <div>
+        <p>Manual de prompts jurídicos para ChatGPT e Codex.</p>
+        <p>Conteúdo adaptado para GPT-5.5, ChatGPT e Codex, com revisão humana obrigatória.</p>
+      </div>
+      <div class="footer-links" aria-label="Links do projeto">
+        <a href={repositoryUrl} target="_blank" rel="noopener noreferrer">Repositório no GitHub</a>
+      </div>
     </footer>
 
     <script>

@@ -143,6 +143,39 @@ a {
   min-height: 44px;
 }
 
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 42px;
+  padding: 0.55rem 0.72rem;
+  border: 1px solid oklch(42% 0.035 150 / 0.72);
+  border-radius: var(--radius);
+  background: oklch(19% 0.024 158 / 0.72);
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: border-color 180ms ease, color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.social-link svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.social-link:hover {
+  transform: translateY(-1px);
+  border-color: var(--copper);
+  background: oklch(25% 0.034 154 / 0.78);
+  color: var(--copper);
+}
+
 .donation-slot > div,
 .donation-slot iframe {
   flex: 0 0 auto;
@@ -846,6 +879,28 @@ pre {
   margin: 0;
 }
 
+.site-footer > div:first-child {
+  display: grid;
+  gap: 0.28rem;
+}
+
+.footer-links {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.footer-links a {
+  color: var(--ink-soft);
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.footer-links a:hover {
+  color: var(--copper);
+}
+
 @media (max-width: 880px) {
   .site-header {
     align-items: flex-start;
@@ -856,6 +911,10 @@ pre {
     align-items: flex-start;
     flex-direction: column;
     width: 100%;
+  }
+
+  .social-link {
+    justify-content: center;
   }
 
   .nav {
