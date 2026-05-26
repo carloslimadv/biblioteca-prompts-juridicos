@@ -27,6 +27,8 @@
   --space-xl: 2rem;
   --space-2xl: 3rem;
   --space-3xl: 4.5rem;
+  --section-tight: clamp(3rem, 5vw, 4.75rem);
+  --section-roomy: clamp(4.75rem, 8vw, 7rem);
   --content: min(1220px, calc(100vw - 2rem));
   --font-body: "Outfit", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-display: "Newsreader", Georgia, "Times New Roman", serif;
@@ -530,12 +532,12 @@ h3 {
   display: grid;
   grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1fr);
   gap: clamp(2rem, 6vw, 5rem);
-  padding: 3.75rem 0 5rem;
+  padding: var(--section-tight) 0;
 }
 
 .benefits,
 .practices {
-  padding: 5.25rem 0;
+  padding: var(--section-roomy) 0;
 }
 
 .section-heading {
@@ -557,6 +559,12 @@ h3 {
   gap: 0.85rem;
 }
 
+.benefit-list {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--space-md);
+}
+
 .benefit-list article,
 .practice-grid article,
 .guide-list article {
@@ -568,9 +576,21 @@ h3 {
   box-shadow: 0 1px 0 oklch(100% 0 0 / 0.05) inset;
 }
 
-.benefit-list article:nth-child(2),
 .practice-grid article:nth-child(2n) {
   transform: translateY(1.4rem);
+}
+
+.benefit-list article:nth-child(1) {
+  grid-column: span 5;
+}
+
+.benefit-list article:nth-child(2) {
+  grid-column: span 4;
+  transform: translateY(var(--space-xl));
+}
+
+.benefit-list article:nth-child(3) {
+  grid-column: span 3;
 }
 
 .guide-list article {
@@ -598,7 +618,7 @@ h3 {
 }
 
 .library {
-  padding: 5.5rem 0;
+  padding: var(--section-roomy) 0;
 }
 
 .library-top {
@@ -1029,6 +1049,16 @@ pre {
     grid-template-columns: 1fr;
   }
 
+  .benefit-list {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+
+  .benefit-list article:nth-child(1),
+  .benefit-list article:nth-child(2),
+  .benefit-list article:nth-child(3) {
+    grid-column: auto;
+  }
+
   .benefit-list article:nth-child(2),
   .practice-grid article:nth-child(2n) {
     transform: none;
@@ -1038,11 +1068,14 @@ pre {
 @media (max-width: 620px) {
   :root {
     --content: min(1160px, calc(100vw - 1rem));
+    --section-tight: 2.75rem;
+    --section-roomy: 3.75rem;
   }
 
   .hero {
     min-height: auto;
-    padding-top: 2.25rem;
+    gap: var(--space-xl);
+    padding: 2.25rem 0 2.75rem;
   }
 
   h1 {
@@ -1063,6 +1096,27 @@ pre {
   .hero-actions,
   .button {
     width: 100%;
+  }
+
+  .hero-visual {
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+    border-radius: 12px 12px 6px 6px;
+  }
+
+  .hero-visual::before {
+    inset: 0.45rem;
+    transform: translate(0.6rem, 0.6rem) rotate(-1deg);
+  }
+
+  .hero-photo,
+  .hero-photo img {
+    min-height: 11.25rem;
+  }
+
+  .visual-body,
+  .visual-grid {
+    display: none;
   }
 
   .site-header {
@@ -1095,6 +1149,20 @@ pre {
   .library-tools {
     gap: var(--space-sm);
     padding: var(--space-sm);
+  }
+
+  .intro,
+  .guide,
+  .limits,
+  .benefits,
+  .practices,
+  .library {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .section-heading {
+    margin-bottom: var(--space-xl);
   }
 
   .filter-list {
@@ -1135,25 +1203,6 @@ pre {
     padding: 0 var(--space-md) var(--space-md);
   }
 
-  .visual-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .hero-visual {
-    gap: var(--space-md);
-  }
-
-  .visual-body {
-    gap: var(--space-sm);
-  }
-
-  .visual-body p:not(:first-child) {
-    display: none;
-  }
-
-  .visual-grid span:nth-child(2) {
-    border-right: 0;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
