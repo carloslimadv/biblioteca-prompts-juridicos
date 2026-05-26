@@ -375,6 +375,7 @@ h3 {
 
 .hero-photo {
   position: relative;
+  aspect-ratio: 4 / 5;
   min-height: 15.5rem;
   margin: 0 0 0.15rem;
   overflow: hidden;
@@ -388,71 +389,18 @@ h3 {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, oklch(9% 0.02 158 / 0.12) 28%, oklch(9% 0.02 158 / 0.78)),
-    radial-gradient(circle at 18% 18%, oklch(70% 0.06 218 / 0.18), transparent 15rem);
+    linear-gradient(180deg, oklch(9% 0.02 158 / 0.05) 34%, oklch(9% 0.02 158 / 0.72)),
+    radial-gradient(circle at 15% 15%, oklch(63% 0.07 58 / 0.22), transparent 18rem);
 }
 
 .hero-photo img {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 15.5rem;
+  min-height: 0;
   object-fit: cover;
-  filter: saturate(0.5) contrast(1.16) brightness(0.62);
-}
-
-.scan-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.scan-line {
-  position: absolute;
-  left: 6%;
-  right: 6%;
-  top: 46%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--petrol), var(--primary), transparent);
-  box-shadow: 0 0 22px oklch(70% 0.055 218 / 0.55);
-  opacity: 0.78;
-}
-
-.scan-note {
-  position: absolute;
-  display: inline-flex;
-  align-items: center;
-  min-height: 1.65rem;
-  border: 1px solid oklch(70% 0.055 218 / 0.62);
-  border-radius: 999px;
-  background: oklch(10.5% 0.02 158 / 0.72);
-  color: var(--petrol);
-  padding: 0.16rem 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.note-ocr {
-  left: 7%;
-  top: 16%;
-}
-
-.note-hidden {
-  right: 8%;
-  top: 38%;
-  border-color: oklch(74% 0.105 58 / 0.7);
-  color: var(--copper);
-}
-
-.note-meta {
-  left: 12%;
-  bottom: 12%;
-  border-color: oklch(68% 0.085 154 / 0.7);
-  color: var(--primary);
+  object-position: center 58%;
+  filter: saturate(0.72) contrast(1.08) brightness(0.72);
 }
 
 .visual-head,
@@ -1111,7 +1059,12 @@ pre {
 
   .hero-photo,
   .hero-photo img {
+    aspect-ratio: 16 / 9;
     min-height: 11.25rem;
+  }
+
+  .hero-photo img {
+    object-position: center 82%;
   }
 
   .visual-body,
