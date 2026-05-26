@@ -1,14 +1,13 @@
 ---
 import '../styles/global.css';
-import { categories, prompts, usageModes } from '../data/prompts';
+import { categories, prompts } from '../data/prompts';
 
-const countBy = (field: 'category' | 'usageMode') => prompts.reduce<Record<string, number>>((acc, prompt) => {
+const countBy = (field: 'category') => prompts.reduce<Record<string, number>>((acc, prompt) => {
   acc[prompt[field]] = (acc[prompt[field]] ?? 0) + 1;
   return acc;
 }, {});
 
 const categoryCounts = countBy('category');
-const usageCounts = countBy('usageMode');
 const categoryOrder = new Map(categories.map((category, index) => [category.id, index]));
 const displayPrompts = [...prompts].sort((a, b) => {
   const categoryDelta = (categoryOrder.get(a.category) ?? 999) - (categoryOrder.get(b.category) ?? 999);
@@ -32,10 +31,10 @@ const heroImage =
     <meta name="generator" content={Astro.generator} />
     <meta
       name="description"
-      content="Biblioteca pública com 90 prompts jurídicos para ChatGPT e Codex, em pt-BR, adaptados para GPT-5.5 e para a advocacia brasileira."
+      content="Biblioteca pública curada com 40 prompts jurídicos em pt-BR, adaptados para uso responsável com modelos de IA na advocacia brasileira."
     />
-    <meta property="og:title" content="Manual de prompts jurídicos para ChatGPT e Codex" />
-    <meta property="og:description" content="90 prompts jurídicos com regras de validação, revisão humana e uso prático no Codex." />
+    <meta property="og:title" content="Manual de prompts jurídicos para IA" />
+    <meta property="og:description" content="40 prompts jurídicos curados com regras de validação, revisão humana e uso prático em modelos de IA." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={heroImage} />
@@ -44,7 +43,7 @@ const heroImage =
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href={`${baseUrl}favicon.svg`} />
     <link rel="icon" href={`${baseUrl}favicon.ico`} />
-    <title>Manual de prompts jurídicos para ChatGPT e Codex</title>
+    <title>Manual de prompts jurídicos para IA</title>
   </head>
   <body>
     <a class="skip-link" href="#biblioteca">Ir para a biblioteca</a>
@@ -57,7 +56,7 @@ const heroImage =
       <div class="header-actions">
         <nav class="nav" aria-label="Navegação principal">
           <a href="#biblioteca">Biblioteca</a>
-          <a href="#codex">Codex</a>
+          <a href="#guia">Guia</a>
           <a href="#boas-praticas">Boas práticas</a>
           <a href="#limites">Limites</a>
         </nav>
@@ -96,10 +95,10 @@ const heroImage =
     <main id="topo" data-prompts-url={`${baseUrl}prompts.json`}>
       <section class="hero section-band" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow">ChatGPT, Codex e GPT-5.5 para advocacia brasileira</p>
-          <h1 id="hero-title">Manual de prompts jurídicos para ChatGPT e Codex</h1>
+          <p class="eyebrow">Prompts verificáveis para advocacia brasileira</p>
+          <h1 id="hero-title">Manual de prompts jurídicos para IA</h1>
           <p class="hero-lead">
-            Uma biblioteca pública com 90 prompts jurídicos estruturados para produzir trabalho útil, verificável e pronto para revisão humana.
+            Uma biblioteca pública com 40 prompts jurídicos curados para produzir trabalho útil, verificável e pronto para revisão humana.
           </p>
           <div class="hero-actions" aria-label="Ações principais">
             <a class="button primary" href="#biblioteca">Explorar biblioteca</a>
@@ -162,8 +161,8 @@ const heroImage =
           </article>
           <article>
             <span>03</span>
-            <h3>Uso direto no Codex</h3>
-            <p>Cada prompt indica quando virar instrução persistente, rotina de repositório ou automação supervisionada.</p>
+            <h3>Uso em rotina</h3>
+            <p>Cada prompt ajuda a transformar uma tarefa recorrente em instrução persistente, rotina de repositório ou automação supervisionada.</p>
           </article>
         </div>
       </section>
@@ -175,7 +174,7 @@ const heroImage =
             <h2 id="library-title">{totalPrompts} prompts jurídicos para copiar, adaptar e validar.</h2>
           </div>
           <p>
-            Use a busca ou combine filtros de tema e uso. Abra um item para ver prompt completo, insumos mínimos, exemplo, variações e orientação para Codex.
+            Use a busca ou filtre por tema. Abra um item para ver prompt completo, insumos mínimos, exemplo, variações e arquitetura recomendada.
           </p>
         </div>
 
@@ -202,24 +201,6 @@ const heroImage =
               }
             </div>
           </div>
-          <div class="filter-group">
-            <span class="filter-label">Uso</span>
-            <div class="filter-list" role="group" aria-label="Filtros por uso">
-              {
-                usageModes.map((usage) => (
-                  <button
-                    class="filter-chip"
-                    type="button"
-                    data-usage-filter={usage.id}
-                    aria-pressed={usage.id === 'all' ? 'true' : 'false'}
-                  >
-                    <span>{usage.label}</span>
-                    <small>{usage.id === 'all' ? totalPrompts : usageCounts[usage.id] ?? 0}</small>
-                  </button>
-                ))
-              }
-            </div>
-          </div>
           <p class="results-count" id="results-count" aria-live="polite">{totalPrompts} prompts encontrados</p>
         </div>
 
@@ -230,8 +211,7 @@ const heroImage =
                 class="prompt-card"
                 data-prompt-id={prompt.id}
                 data-category={prompt.category}
-                data-usage={prompt.usageMode}
-                data-search={`${prompt.title} ${prompt.categoryLabel} ${prompt.usageLabel} ${prompt.architectureLabel} ${prompt.purpose} ${prompt.minimumInputs.join(' ')} ${prompt.example} ${prompt.variations.join(' ')}`}
+                data-search={`${prompt.title} ${prompt.categoryLabel} ${prompt.architectureLabel} ${prompt.purpose} ${prompt.minimumInputs.join(' ')} ${prompt.example} ${prompt.variations.join(' ')}`}
               >
                 <details>
                   <summary>
@@ -239,7 +219,6 @@ const heroImage =
                     <span class="summary-copy">
                       <span class="card-meta">
                         <span>{prompt.categoryLabel}</span>
-                        <span>{prompt.usageLabel}</span>
                         <span class={`reasoning reasoning-${prompt.reasoning}`}>raciocínio {prompt.reasoning}</span>
                       </span>
                       <strong>{prompt.title}</strong>
@@ -275,14 +254,9 @@ const heroImage =
                       </section>
                       <section>
                         <h3>Arquitetura</h3>
-                        <p>{prompt.architectureLabel}. Uso recomendado: {prompt.usageLabel}.</p>
+                        <p>{prompt.architectureLabel}. Use como ponto de partida e adapte ao contexto, aos documentos e ao nível de revisão necessário.</p>
                       </section>
                     </div>
-
-                    <section class="codex-note">
-                      <h3>Transformar em rotina no Codex</h3>
-                      <p>{prompt.codex}</p>
-                    </section>
                   </div>
                 </details>
               </article>
@@ -296,20 +270,20 @@ const heroImage =
       <section class="guide section-narrow" id="guia" aria-labelledby="guide-title">
         <div>
           <p class="eyebrow">Guia</p>
-          <h2 id="guide-title">Como usar com ChatGPT e Codex</h2>
+          <h2 id="guide-title">Como usar os prompts</h2>
         </div>
         <div class="guide-list">
-          <article id="codex">
+          <article>
             <h3>Uso avulso</h3>
             <p>Copie o prompt, substitua os campos entre colchetes, anexe documentos quando necessário e peça a resposta em seções. Ideal para uma tarefa pontual.</p>
           </article>
           <article>
             <h3>Rotina permanente</h3>
-            <p>Quando a tarefa se repete, transforme o prompt em instrução persistente ou arquivo de orientação do repositório. Inclua modelos do escritório e critérios de aceite.</p>
+            <p>Quando a tarefa se repete, transforme o prompt em instrução persistente ou arquivo de orientação da rotina. Inclua modelos do escritório e critérios de aceite.</p>
           </article>
           <article>
             <h3>Automação supervisionada</h3>
-            <p>No Codex, use automações apenas para tarefas reversíveis ou revisáveis. Produções jurídicas, comunicações externas e decisões estratégicas exigem aprovação humana.</p>
+            <p>Use automações apenas para tarefas reversíveis ou revisáveis. Produções jurídicas, comunicações externas e decisões estratégicas exigem aprovação humana.</p>
           </article>
         </div>
       </section>
@@ -360,8 +334,8 @@ const heroImage =
 
     <footer class="site-footer">
       <div>
-        <p>Manual de prompts jurídicos para ChatGPT e Codex.</p>
-        <p>Conteúdo adaptado para GPT-5.5, ChatGPT e Codex, com revisão humana obrigatória.</p>
+        <p>Manual de prompts jurídicos para IA.</p>
+        <p>Conteúdo adaptado para uso responsável com modelos de IA, com revisão humana obrigatória.</p>
       </div>
       <div class="footer-links" aria-label="Links do projeto">
         <a href={repositoryUrl} target="_blank" rel="noopener noreferrer">Repositório no GitHub</a>
@@ -371,14 +345,12 @@ const heroImage =
     <script>
       const searchInput = document.querySelector('#prompt-search');
       const categoryButtons = [...document.querySelectorAll('[data-category-filter]')];
-      const usageButtons = [...document.querySelectorAll('[data-usage-filter]')];
       const cards = [...document.querySelectorAll('.prompt-card')];
       const count = document.querySelector('#results-count');
       const empty = document.querySelector('#empty-state');
       const promptsUrl = document.querySelector('main')?.dataset.promptsUrl ?? 'prompts.json';
       let promptMapPromise;
       let activeCategory = 'all';
-      let activeUsage = 'all';
 
       async function getPromptMap() {
         if (!promptMapPromise) {
@@ -416,9 +388,8 @@ const heroImage =
 
         cards.forEach((card) => {
           const matchesCategory = activeCategory === 'all' || card.dataset.category === activeCategory;
-          const matchesUsage = activeUsage === 'all' || card.dataset.usage === activeUsage;
           const matchesSearch = !query || normalize(card.dataset.search ?? '').includes(query);
-          const shouldShow = matchesCategory && matchesUsage && matchesSearch;
+          const shouldShow = matchesCategory && matchesSearch;
           card.toggleAttribute('hidden', !shouldShow);
           if (shouldShow) visible += 1;
         });
@@ -439,10 +410,6 @@ const heroImage =
 
       bindFilter(categoryButtons, 'categoryFilter', (value) => {
         activeCategory = value;
-      });
-
-      bindFilter(usageButtons, 'usageFilter', (value) => {
-        activeUsage = value;
       });
 
       searchInput?.addEventListener('input', applyFilters);
@@ -482,7 +449,7 @@ const heroImage =
         });
       });
 
-      const sections = [...document.querySelectorAll('#biblioteca, #codex, #boas-praticas, #limites')];
+      const sections = [...document.querySelectorAll('#biblioteca, #guia, #boas-praticas, #limites')];
       const navLinks = [...document.querySelectorAll('.nav a')];
       const linkById = new Map(navLinks.map((link) => [link.getAttribute('href')?.slice(1), link]));
 

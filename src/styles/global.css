@@ -252,12 +252,12 @@ p {
 }
 
 h1 {
-  max-width: 10.5ch;
+  max-width: 12ch;
   margin-bottom: var(--space-lg);
   font-family: var(--font-display);
-  font-size: 7rem;
+  font-size: 6rem;
   font-weight: 760;
-  line-height: 0.84;
+  line-height: 0.9;
   letter-spacing: 0;
   text-wrap: balance;
 }
@@ -829,8 +829,7 @@ pre {
   gap: var(--space-md);
 }
 
-.detail-columns section,
-.codex-note {
+.detail-columns section {
   border: 1px solid var(--line);
   border-radius: 10px 10px 5px 5px;
   padding: var(--space-lg);
@@ -838,7 +837,6 @@ pre {
 }
 
 .detail-columns p,
-.codex-note p,
 .detail-columns li {
   color: var(--ink-soft);
 }
@@ -945,8 +943,8 @@ pre {
   }
 
   h1 {
-    max-width: 9ch;
-    font-size: 5rem;
+    max-width: 12ch;
+    font-size: 4.25rem;
   }
 
   h2 {
@@ -979,7 +977,9 @@ pre {
   }
 
   h1 {
-    font-size: 3.35rem;
+    max-width: 13ch;
+    font-size: 2.7rem;
+    line-height: 0.96;
   }
 
   h2 {

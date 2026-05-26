@@ -1,11 +1,11 @@
-# Manual de prompts jurídicos para ChatGPT e Codex
+# Manual de prompts jurídicos para IA
 
 [![Astro](https://img.shields.io/badge/Astro-6-1b1b1b?style=flat-square)](https://astro.build/)
 [![GitHub Pages](https://img.shields.io/badge/deploy-GitHub%20Pages-123c31?style=flat-square)](https://carloslimadv.github.io/biblioteca-prompts-juridicos/)
 [![pt-BR](https://img.shields.io/badge/idioma-pt--BR-9a5a2e?style=flat-square)](#)
 
 
-Página pública para apresentar, explicar e disponibilizar uma biblioteca de 90 prompts jurídicos em português do Brasil, pensada para advogados que usam ChatGPT e Codex com responsabilidade profissional.
+Página pública para apresentar, explicar e disponibilizar uma biblioteca curada de 40 prompts jurídicos em português do Brasil, pensada para advogados que usam modelos de IA com responsabilidade profissional.
 
 **Acesse:** [carloslimadv.github.io/biblioteca-prompts-juridicos](https://carloslimadv.github.io/biblioteca-prompts-juridicos/)
 
@@ -20,7 +20,7 @@ A página organiza prompts jurídicos prontos para copiar, adaptar e validar em 
 Na prática, a página ajuda o usuário a:
 
 - encontrar prompts por área do escritório;
-- entender quando usar ChatGPT e quando transformar uma rotina em instrução persistente ou orientação do Codex;
+- entender quando usar um prompt avulso e quando transformar uma rotina em instrução persistente, orientação interna ou fluxo supervisionado;
 - copiar prompts estruturados com objetivo, contexto, critérios de sucesso, restrições e regras de parada;
 - lembrar que fatos, documentos, leis, jurisprudência, valores e prazos precisam ser conferidos antes de uso profissional;
 - separar fato, prova, inferência, lacuna e risco antes de protocolar, enviar ou publicar qualquer resultado.
@@ -30,10 +30,10 @@ Na prática, a página ajuda o usuário a:
 | Área | Função na página |
 | --- | --- |
 | Abertura editorial | Apresenta o manual com posicionamento jurídico, técnico e responsável. |
-| Biblioteca | Lista os 90 prompts em itens expansíveis, com busca, filtros e botão de cópia. |
-| Temas | Agrupa prompts por peças e revisão, fatos e documentos, estratégia processual, cliente e atendimento, gestão do escritório, marketing jurídico ético, Codex e automação, pesquisa e validação. |
+| Biblioteca | Lista os 40 prompts curados em itens expansíveis, com busca, filtros e botão de cópia. |
+| Temas | Agrupa prompts por peças e revisão, fatos e documentos, estratégia processual, cliente e atendimento, gestão do escritório, marketing jurídico ético, automação e rotinas, pesquisa e validação. |
 | Raciocínio recomendado | Indica se a tarefa exige raciocínio baixo, médio ou alto. |
-| Guia de uso | Explica a diferença entre uso avulso, rotina permanente e automação supervisionada no Codex. |
+| Guia de uso | Explica a diferença entre uso avulso, rotina permanente e automação supervisionada. |
 | Boas práticas | Resume a estrutura recomendada para prompts jurídicos verificáveis. |
 | Limites | Reforça revisão humana, sigilo, LGPD, ética da OAB e checagem de fontes oficiais. |
 
@@ -43,7 +43,7 @@ Esta página foi desenhada para:
 
 - advogados brasileiros que querem usar IA sem abrir mão de controle técnico;
 - sócios e coordenadores que precisam padronizar rotinas de escritório;
-- equipes que usam Codex para transformar tarefas recorrentes em instruções persistentes;
+- equipes que usam IA para transformar tarefas recorrentes em instruções persistentes;
 - profissionais de marketing jurídico que precisam manter comunicação sóbria e compatível com a ética profissional;
 - estudantes e pesquisadores que querem aprender a estruturar prompts jurídicos com mais rigor.
 

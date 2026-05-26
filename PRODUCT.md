@@ -1,14 +1,14 @@
-# Manual de prompts jurídicos para ChatGPT e Codex
+# Manual de prompts jurídicos para IA
 
 register: brand
 
 ## Usuários
 
-Advogados brasileiros, sócios de escritórios, coordenadores jurídicos e profissionais que usam ChatGPT ou Codex para acelerar pesquisa, redação, revisão, gestão e comunicação jurídica sem abrir mão de validação humana.
+Advogados brasileiros, sócios de escritórios, coordenadores jurídicos e profissionais que usam modelos de IA para acelerar pesquisa, redação, revisão, gestão e comunicação jurídica sem abrir mão de validação humana.
 
 ## Propósito
 
-Oferecer uma biblioteca pública, prática e editorialmente cuidadosa de prompts jurídicos em pt-BR, adaptados para GPT-5.5, ChatGPT e Codex. O produto deve ajudar o advogado a transformar tarefas recorrentes em instruções claras, verificáveis e seguras.
+Oferecer uma biblioteca pública, prática e editorialmente cuidadosa de prompts jurídicos em pt-BR, adaptados para uso responsável com modelos de IA. O produto deve ajudar o advogado a transformar tarefas recorrentes em instruções claras, verificáveis e seguras.
 
 ## Tom
 
