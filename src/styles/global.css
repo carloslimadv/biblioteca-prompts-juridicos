@@ -252,23 +252,23 @@ p {
 }
 
 h1 {
-  max-width: 12ch;
+  max-width: 13ch;
   margin-bottom: var(--space-lg);
   font-family: var(--font-display);
-  font-size: 6rem;
-  font-weight: 760;
-  line-height: 0.9;
+  font-size: clamp(4.1rem, 7vw, 5.4rem);
+  font-weight: 720;
+  line-height: 0.94;
   letter-spacing: 0;
   text-wrap: balance;
 }
 
 h2 {
-  max-width: 13ch;
+  max-width: 15ch;
   margin-bottom: var(--space-lg);
   font-family: var(--font-display);
-  font-size: 3.7rem;
-  font-weight: 720;
-  line-height: 0.96;
+  font-size: clamp(2.55rem, 4.5vw, 3.35rem);
+  font-weight: 700;
+  line-height: 1;
   letter-spacing: 0;
   text-wrap: balance;
 }
@@ -626,7 +626,8 @@ h3 {
   background: oklch(18% 0.022 158 / 0.82);
   border-color: var(--line);
   color: var(--ink-soft);
-  padding: 0.55rem 0.75rem;
+  padding: 0.5rem 0.68rem;
+  font-size: 0.94rem;
 }
 
 .filter-chip[aria-pressed='true'] {
@@ -742,9 +743,9 @@ h3 {
 .summary-copy strong {
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: 1.72rem;
+  font-size: 1.46rem;
   font-weight: 680;
-  line-height: 1.12;
+  line-height: 1.18;
   text-wrap: balance;
 }
 
@@ -885,6 +886,7 @@ pre {
 .footer-links {
   display: inline-flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: var(--space-sm);
 }
 
@@ -943,8 +945,8 @@ pre {
   }
 
   h1 {
-    max-width: 12ch;
-    font-size: 4.25rem;
+    max-width: 13ch;
+    font-size: 3.7rem;
   }
 
   h2 {
@@ -973,17 +975,18 @@ pre {
 
   .hero {
     min-height: auto;
-    padding-top: 2.5rem;
+    padding-top: 2.25rem;
   }
 
   h1 {
-    max-width: 13ch;
-    font-size: 2.7rem;
-    line-height: 0.96;
+    max-width: 14ch;
+    font-size: 2.45rem;
+    line-height: 1;
   }
 
   h2 {
-    font-size: 2.2rem;
+    font-size: 2rem;
+    line-height: 1.04;
   }
 
   .summary-copy strong {
@@ -993,6 +996,54 @@ pre {
   .hero-actions,
   .button {
     width: 100%;
+  }
+
+  .site-header {
+    gap: var(--space-md);
+    padding: 0.75rem 0;
+  }
+
+  .header-actions {
+    gap: var(--space-sm);
+  }
+
+  .donation-slot {
+    display: none;
+  }
+
+  .nav {
+    gap: 0.35rem;
+  }
+
+  .nav a {
+    padding: 0.42rem 0.48rem;
+  }
+
+  .social-link {
+    min-height: 38px;
+    padding: 0.45rem 0.62rem;
+    font-size: 0.86rem;
+  }
+
+  .library-tools {
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+  }
+
+  .filter-list {
+    gap: 0.42rem;
+  }
+
+  .filter-chip {
+    min-height: 40px;
+    padding: 0.42rem 0.54rem;
+    font-size: 0.88rem;
+  }
+
+  .filter-chip small {
+    min-width: 1.42rem;
+    min-height: 1.42rem;
+    font-size: 0.78rem;
   }
 
   .prompt-card summary {

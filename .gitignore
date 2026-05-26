@@ -3,6 +3,9 @@ dist/
 # generated types
 .astro/
 
+# local design audit snapshots
+.impeccable/
+
 # dependencies
 node_modules/
 
