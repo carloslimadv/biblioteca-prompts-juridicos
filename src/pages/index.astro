@@ -10,6 +10,8 @@ const countBy = (field: 'category') => prompts.reduce<Record<string, number>>((a
 const categoryCounts = countBy('category');
 const categoryOrder = new Map(categories.map((category, index) => [category.id, index]));
 const displayPrompts = [...prompts].sort((a, b) => {
+  if (a.id === 'p0') return -1;
+  if (b.id === 'p0') return 1;
   const categoryDelta = (categoryOrder.get(a.category) ?? 999) - (categoryOrder.get(b.category) ?? 999);
   if (categoryDelta !== 0) return categoryDelta;
   return Number(a.id.replace('p', '')) - Number(b.id.replace('p', ''));
@@ -31,10 +33,10 @@ const heroImage =
     <meta name="generator" content={Astro.generator} />
     <meta
       name="description"
-      content="Biblioteca pública curada com 40 prompts jurídicos em pt-BR, adaptados para uso responsável com modelos de IA na advocacia brasileira."
+      content="Biblioteca pública curada com 41 prompts jurídicos em pt-BR, adaptados para uso responsável com modelos de IA na advocacia brasileira."
     />
     <meta property="og:title" content="Manual de prompts jurídicos para IA" />
-    <meta property="og:description" content="40 prompts jurídicos curados com regras de validação, revisão humana e uso prático em modelos de IA." />
+    <meta property="og:description" content="41 prompts jurídicos curados com regras de validação, revisão humana e uso prático em modelos de IA." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={heroImage} />
@@ -98,7 +100,7 @@ const heroImage =
           <p class="eyebrow">Prompts verificáveis para advocacia brasileira</p>
           <h1 id="hero-title">Manual de prompts jurídicos para IA</h1>
           <p class="hero-lead">
-            Uma biblioteca pública com 40 prompts jurídicos curados para produzir trabalho útil, verificável e pronto para revisão humana.
+            Uma biblioteca pública com 41 prompts jurídicos curados para produzir trabalho útil, verificável e pronto para revisão humana.
           </p>
           <div class="hero-actions" aria-label="Ações principais">
             <a class="button primary" href="#biblioteca">Explorar biblioteca</a>

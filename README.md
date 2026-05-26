@@ -5,7 +5,7 @@
 [![pt-BR](https://img.shields.io/badge/idioma-pt--BR-9a5a2e?style=flat-square)](#)
 
 
-Página pública para apresentar, explicar e disponibilizar uma biblioteca curada de 40 prompts jurídicos em português do Brasil, pensada para advogados que usam modelos de IA com responsabilidade profissional.
+Página pública para apresentar, explicar e disponibilizar uma biblioteca curada de 41 prompts jurídicos em português do Brasil, pensada para advogados que usam modelos de IA com responsabilidade profissional.
 
 **Acesse:** [carloslimadv.github.io/biblioteca-prompts-juridicos](https://carloslimadv.github.io/biblioteca-prompts-juridicos/)
 
@@ -30,7 +30,7 @@ Na prática, a página ajuda o usuário a:
 | Área | Função na página |
 | --- | --- |
 | Abertura editorial | Apresenta o manual com posicionamento jurídico, técnico e responsável. |
-| Biblioteca | Lista os 40 prompts curados em itens expansíveis, com busca, filtros e botão de cópia. |
+| Biblioteca | Lista os 41 prompts curados em itens expansíveis, com busca, filtros e botão de cópia. |
 | Temas | Agrupa prompts por peças e revisão, fatos e documentos, estratégia processual, cliente e atendimento, gestão do escritório, marketing jurídico ético, automação e rotinas, pesquisa e validação. |
 | Raciocínio recomendado | Indica se a tarefa exige raciocínio baixo, médio ou alto. |
 | Guia de uso | Explica a diferença entre uso avulso, rotina permanente e automação supervisionada. |
