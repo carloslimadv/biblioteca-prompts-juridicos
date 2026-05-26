@@ -108,29 +108,35 @@ const heroImage =
           </div>
         </div>
 
-        <aside class="hero-visual" aria-label="Exemplo de prompt estruturado">
+        <aside class="hero-visual" aria-label="Demonstração de auditoria de prompt injection">
           <figure class="hero-photo">
             <img
               src={heroImage}
-              alt="Mesa de trabalho com papéis e caneta para revisão jurídica"
+              alt="Documento jurídico em revisão técnica"
               loading="eager"
               decoding="async"
             />
+            <div class="scan-overlay" aria-hidden="true">
+              <span class="scan-line"></span>
+              <span class="scan-note note-ocr">camada OCR</span>
+              <span class="scan-note note-hidden">texto oculto</span>
+              <span class="scan-note note-meta">metadado</span>
+            </div>
           </figure>
           <div class="visual-head">
-            <span>prompt jurídico</span>
-            <strong>raciocínio alto</strong>
+            <span>auditoria de documento</span>
+            <strong>indícios ocultos</strong>
           </div>
           <div class="visual-body">
-            <p><b>Objetivo</b> revisar fatos, provas, inferências, lacunas e riscos.</p>
-            <p><b>Validação</b> não inventar lei, jurisprudência, prazo, valor ou documento.</p>
-            <p><b>Parada</b> pedir complementação quando faltar fonte indispensável.</p>
+            <p><b>Entrada</b> PDF ou DOCX da parte adversária tratado como conteúdo não confiável.</p>
+            <p><b>Busca</b> fonte zero, texto branco, metadados, OCR, caracteres invisíveis e comandos escondidos.</p>
+            <p><b>Saída</b> veredicto, localização, forma de ocultação e providência técnica.</p>
           </div>
           <div class="visual-grid" aria-hidden="true">
-            <span>fato</span>
-            <span>prova</span>
-            <span>inferência</span>
-            <span>risco</span>
+            <span>OCR</span>
+            <span>metadado</span>
+            <span>oculto</span>
+            <span>página</span>
           </div>
         </aside>
       </section>
@@ -210,6 +216,7 @@ const heroImage =
           {
             displayPrompts.map((prompt, index) => (
               <article
+                id={prompt.id}
                 class="prompt-card"
                 data-prompt-id={prompt.id}
                 data-category={prompt.category}
@@ -230,9 +237,12 @@ const heroImage =
                   <div class="card-content">
                     <div class="prompt-actions">
                       <span>Prompt completo</span>
-                      <button class="copy-button" type="button" data-copy={`prompt-${prompt.id}`} data-prompt-id={prompt.id}>Copiar prompt</button>
+                      <div class="prompt-action-buttons">
+                        <button class="copy-button" type="button" data-copy-prompt data-prompt-id={prompt.id}>Copiar prompt</button>
+                        <button class="copy-button secondary-copy" type="button" data-copy-link data-prompt-id={prompt.id}>Copiar link</button>
+                      </div>
                     </div>
-                    <pre id={`prompt-${prompt.id}`} data-loaded="false">Abra o item para carregar o prompt completo.</pre>
+                    <pre id={`prompt-text-${prompt.id}`} data-loaded="false">Abra o item para carregar o prompt completo.</pre>
 
                     <div class="detail-columns">
                       <section>
@@ -368,7 +378,7 @@ const heroImage =
 
       async function hydratePrompt(card) {
         const promptId = card?.dataset.promptId;
-        const pre = promptId ? document.getElementById(`prompt-${promptId}`) : null;
+        const pre = promptId ? document.getElementById(`prompt-text-${promptId}`) : null;
         if (!promptId || !pre || pre.dataset.loaded === 'true') return pre;
 
         pre.textContent = 'Carregando prompt completo...';
@@ -376,6 +386,45 @@ const heroImage =
         pre.textContent = promptMap.get(promptId) ?? 'Prompt não encontrado.';
         pre.dataset.loaded = 'true';
         return pre;
+      }
+
+      async function copyText(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          const textarea = document.createElement('textarea');
+          textarea.value = text;
+          textarea.setAttribute('readonly', '');
+          textarea.style.position = 'fixed';
+          textarea.style.top = '-999px';
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          textarea.remove();
+        }
+      }
+
+      function showCopyFeedback(button, label) {
+        const original = button.textContent;
+        button.textContent = label;
+        button.classList.add('copied');
+        window.setTimeout(() => {
+          button.textContent = original;
+          button.classList.remove('copied');
+        }, 1400);
+      }
+
+      function openPromptFromHash() {
+        const promptId = window.location.hash.slice(1);
+        if (!promptId || ['biblioteca', 'guia', 'boas-praticas', 'limites', 'topo'].includes(promptId)) return;
+
+        const card = document.getElementById(promptId);
+        const details = card?.querySelector('details');
+        if (!card || !details) return;
+
+        details.open = true;
+        hydratePrompt(card);
+        card.scrollIntoView({ block: 'start' });
       }
 
       function normalize(value) {
@@ -424,34 +473,31 @@ const heroImage =
         });
       });
 
-      document.querySelectorAll('[data-copy]').forEach((button) => {
+      document.querySelectorAll('[data-copy-prompt]').forEach((button) => {
         button.addEventListener('click', async () => {
           const target = await hydratePrompt(button.closest('.prompt-card'));
           if (!target) return;
 
           const text = target.textContent ?? '';
-          try {
-            await navigator.clipboard.writeText(text);
-          } catch {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            textarea.setAttribute('readonly', '');
-            textarea.style.position = 'fixed';
-            textarea.style.top = '-999px';
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            textarea.remove();
-          }
-          const original = button.textContent;
-          button.textContent = 'Copiado';
-          button.classList.add('copied');
-          window.setTimeout(() => {
-            button.textContent = original;
-            button.classList.remove('copied');
-          }, 1400);
+          await copyText(text);
+          showCopyFeedback(button, 'Copiado');
         });
       });
+
+      document.querySelectorAll('[data-copy-link]').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const promptId = button.dataset.promptId;
+          if (!promptId) return;
+
+          const url = new URL(window.location.href);
+          url.hash = promptId;
+          await copyText(url.toString());
+          showCopyFeedback(button, 'Link copiado');
+        });
+      });
+
+      openPromptFromHash();
+      window.addEventListener('hashchange', openPromptFromHash);
 
       const sections = [...document.querySelectorAll('#biblioteca, #guia, #boas-praticas, #limites')];
       const navLinks = [...document.querySelectorAll('.nav a')];
