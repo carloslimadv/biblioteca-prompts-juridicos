@@ -21,8 +21,15 @@ const canonicalUrl = 'https://carloslimadv.github.io/biblioteca-prompts-juridico
 const instagramUrl = 'https://www.instagram.com/carloslimadv/';
 const repositoryUrl = 'https://github.com/carloslimadv/biblioteca-prompts-juridicos';
 const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
-const heroImage =
-  'https://images.unsplash.com/photo-1752697589153-4e77216e7c6b?auto=format&fit=crop&w=1600&q=84';
+const fontStylesheet =
+  'https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500..800&family=Outfit:wght@400;500;600;700;800&display=swap';
+const heroImageBase = 'https://images.unsplash.com/photo-1752697589153-4e77216e7c6b';
+const heroImageSmall = `${heroImageBase}?auto=format&fit=crop&w=640&q=72`;
+const heroImageMedium = `${heroImageBase}?auto=format&fit=crop&w=960&q=76`;
+const heroImageLarge = `${heroImageBase}?auto=format&fit=crop&w=1200&q=80`;
+const heroImageOg = `${heroImageBase}?auto=format&fit=crop&w=1600&q=84`;
+const heroImageSrcset = `${heroImageSmall} 640w, ${heroImageMedium} 960w, ${heroImageLarge} 1200w`;
+const heroImageSizes = '(max-width: 620px) calc(100vw - 1rem), (max-width: 880px) calc(100vw - 2rem), 38vw';
 ---
 
 <!doctype html>
@@ -39,10 +46,24 @@ const heroImage =
     <meta property="og:description" content="41 prompts jurídicos curados com regras de validação, revisão humana e uso prático em modelos de IA." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:image" content={heroImage} />
+    <meta property="og:image" content={heroImageOg} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#123c31" />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="preload" as="style" href={fontStylesheet} />
+    <link rel="stylesheet" href={fontStylesheet} media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href={fontStylesheet} /></noscript>
+    <link
+      rel="preload"
+      as="image"
+      href={heroImageSmall}
+      imagesrcset={heroImageSrcset}
+      imagesizes={heroImageSizes}
+      fetchpriority="high"
+    />
     <link rel="icon" type="image/svg+xml" href={`${baseUrl}favicon.svg`} />
     <link rel="icon" href={`${baseUrl}favicon.ico`} />
     <title>Manual de prompts jurídicos para IA</title>
@@ -71,25 +92,9 @@ const heroImage =
           <span>Instagram</span>
         </a>
         <div class="donation-slot" aria-label="Apoie este projeto">
-          <script
-            is:inline
-            type="text/javascript"
-            src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js"
-            data-name="bmc-button"
-            data-slug="carloslimadv"
-            data-color="#FFDD00"
-            data-emoji="☕"
-            data-font="Bree"
-            data-text="Compre-me um café"
-            data-outline-color="#000000"
-            data-font-color="#000000"
-            data-coffee-color="#ffffff"
-          ></script>
-          <noscript>
-            <a class="donation-fallback" href="https://www.buymeacoffee.com/carloslimadv" rel="noopener noreferrer">
-              Compre-me um café
-            </a>
-          </noscript>
+          <a class="donation-fallback" href="https://www.buymeacoffee.com/carloslimadv" target="_blank" rel="noopener noreferrer">
+            Compre-me um café
+          </a>
         </div>
       </div>
     </header>
@@ -111,10 +116,15 @@ const heroImage =
         <aside class="hero-visual" aria-label="Exemplo de prompt estruturado">
           <figure class="hero-photo">
             <img
-              src={heroImage}
+              src={heroImageMedium}
+              srcset={`${heroImageSmall} 640w, ${heroImageMedium} 960w, ${heroImageLarge} 1200w`}
+              sizes="(max-width: 620px) calc(100vw - 1rem), (max-width: 880px) calc(100vw - 2rem), 38vw"
               alt="Mesa de estudo jurídico com laptops e livro de direito"
+              width="960"
+              height="1200"
               loading="eager"
               decoding="async"
+              fetchpriority="high"
             />
           </figure>
           <div class="visual-head">

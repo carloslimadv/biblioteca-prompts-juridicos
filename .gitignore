@@ -6,6 +6,10 @@ dist/
 # local design audit snapshots
 .impeccable/
 
+# local browser verification artifacts
+.playwright-cli/
+output/
+
 # dependencies
 node_modules/
 
