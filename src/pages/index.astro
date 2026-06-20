@@ -9,13 +9,17 @@ const countBy = (field: 'category') => prompts.reduce<Record<string, number>>((a
 
 const categoryCounts = countBy('category');
 const categoryOrder = new Map(categories.map((category, index) => [category.id, index]));
-const displayPrompts = [...prompts].sort((a, b) => {
-  if (a.id === 'p0') return -1;
-  if (b.id === 'p0') return 1;
-  const categoryDelta = (categoryOrder.get(a.category) ?? 999) - (categoryOrder.get(b.category) ?? 999);
+const displayPrompts = prompts.map(p => ({
+  p,
+  cat: categoryOrder.get(p.category) ?? 999,
+  numId: p.id === 'p0' ? -1 : parseInt(p.id.substring(1), 10)
+})).sort((a, b) => {
+  if (a.numId === -1) return -1;
+  if (b.numId === -1) return 1;
+  const categoryDelta = a.cat - b.cat;
   if (categoryDelta !== 0) return categoryDelta;
-  return Number(a.id.replace('p', '')) - Number(b.id.replace('p', ''));
-});
+  return a.numId - b.numId;
+}).map(x => x.p);
 const totalPrompts = prompts.length;
 const canonicalUrl = 'https://carloslimadv.github.io/biblioteca-prompts-juridicos/';
 const instagramUrl = 'https://www.instagram.com/carloslimadv/';
