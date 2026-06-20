@@ -77,7 +77,7 @@ const sharedRules = `# Regras de segurança
 - Se houver uso externo, revise sigilo, LGPD, publicidade profissional e risco reputacional.
 - Escreva em pt-BR, com linguagem técnica suficiente para advogado e clara o bastante para revisão rápida.`;
 
-type PromptDraft = Omit<LegalPrompt, "categoryLabel" | "usageLabel" | "architectureLabel" | "prompt"> & {
+export type PromptDraft = Omit<LegalPrompt, "categoryLabel" | "usageLabel" | "architectureLabel" | "prompt"> & {
   objective: string;
   inputs: string[];
   output: string[];
@@ -102,7 +102,7 @@ ${draft.doNotUse}
 # Condição de parada
 ${draft.stop}`;
 
-const prompt = (draft: PromptDraft): LegalPrompt => ({
+export const prompt = (draft: PromptDraft): LegalPrompt => ({
   ...draft,
   categoryLabel: categoryLabels[draft.category],
   usageLabel: usageLabels[draft.usageMode],
