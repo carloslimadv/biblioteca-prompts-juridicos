@@ -399,16 +399,8 @@ const heroImageSizes = '(max-width: 620px) calc(100vw - 1rem), (max-width: 880px
       async function copyText(text) {
         try {
           await navigator.clipboard.writeText(text);
-        } catch {
-          const textarea = document.createElement('textarea');
-          textarea.value = text;
-          textarea.setAttribute('readonly', '');
-          textarea.style.position = 'fixed';
-          textarea.style.top = '-999px';
-          document.body.appendChild(textarea);
-          textarea.select();
-          document.execCommand('copy');
-          textarea.remove();
+        } catch (error) {
+          console.error('Failed to copy text: ', error);
         }
       }
 
