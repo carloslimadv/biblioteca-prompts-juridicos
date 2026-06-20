@@ -439,13 +439,17 @@ const heroImageSizes = '(max-width: 620px) calc(100vw - 1rem), (max-width: 880px
           .toLowerCase();
       }
 
+      cards.forEach((card) => {
+        card.dataset.searchNormalized = normalize(card.dataset.search ?? '');
+      });
+
       function applyFilters() {
         const query = normalize(searchInput?.value ?? '');
         let visible = 0;
 
         cards.forEach((card) => {
           const matchesCategory = activeCategory === 'all' || card.dataset.category === activeCategory;
-          const matchesSearch = !query || normalize(card.dataset.search ?? '').includes(query);
+          const matchesSearch = !query || card.dataset.searchNormalized.includes(query);
           const shouldShow = matchesCategory && matchesSearch;
           card.toggleAttribute('hidden', !shouldShow);
           if (shouldShow) visible += 1;
