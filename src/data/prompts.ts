@@ -97,7 +97,7 @@ const automationAutonomy = `# Limites de autonomia
 - Desenhe, simule ou teste o fluxo em ambiente controlado. Não ative automação, mova dados, envie comunicações nem produza efeito externo sem autorização expressa.
 - Preserve revisão humana, reversibilidade, registro de auditoria e tratamento claro de falhas.`;
 
-type PromptDraft = Omit<LegalPrompt, "categoryLabel" | "usageLabel" | "architectureLabel" | "prompt"> & {
+export type PromptDraft = Omit<LegalPrompt, "categoryLabel" | "usageLabel" | "architectureLabel" | "prompt"> & {
   objective: string;
   inputs: string[];
   output: string[];
@@ -105,7 +105,7 @@ type PromptDraft = Omit<LegalPrompt, "categoryLabel" | "usageLabel" | "architect
   stop: string;
 };
 
-const buildPrompt = (draft: PromptDraft) => {
+export const buildPrompt = (draft: PromptDraft) => {
   const autonomy = draft.architecture === "automacao"
     ? automationAutonomy
     : draft.usageMode === "codex"

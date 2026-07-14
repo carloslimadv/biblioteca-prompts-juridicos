@@ -9,13 +9,17 @@ const countBy = (field: 'category') => prompts.reduce<Record<string, number>>((a
 
 const categoryCounts = countBy('category');
 const categoryOrder = new Map(categories.map((category, index) => [category.id, index]));
-const displayPrompts = [...prompts].sort((a, b) => {
-  if (a.id === 'p0') return -1;
-  if (b.id === 'p0') return 1;
-  const categoryDelta = (categoryOrder.get(a.category) ?? 999) - (categoryOrder.get(b.category) ?? 999);
+const displayPrompts = prompts.map(p => ({
+  p,
+  cat: categoryOrder.get(p.category) ?? 999,
+  numId: p.id === 'p0' ? -1 : parseInt(p.id.substring(1), 10)
+})).sort((a, b) => {
+  if (a.numId === -1) return -1;
+  if (b.numId === -1) return 1;
+  const categoryDelta = a.cat - b.cat;
   if (categoryDelta !== 0) return categoryDelta;
-  return Number(a.id.replace('p', '')) - Number(b.id.replace('p', ''));
-});
+  return a.numId - b.numId;
+}).map(x => x.p);
 const totalPrompts = prompts.length;
 const canonicalUrl = 'https://carloslimadv.github.io/biblioteca-prompts-juridicos/';
 const instagramUrl = 'https://www.instagram.com/carloslimadv/';
@@ -420,16 +424,8 @@ const heroImageSizes = '(max-width: 620px) calc(100vw - 1rem), (max-width: 880px
       async function copyText(text) {
         try {
           await navigator.clipboard.writeText(text);
-        } catch {
-          const textarea = document.createElement('textarea');
-          textarea.value = text;
-          textarea.setAttribute('readonly', '');
-          textarea.style.position = 'fixed';
-          textarea.style.top = '-999px';
-          document.body.appendChild(textarea);
-          textarea.select();
-          document.execCommand('copy');
-          textarea.remove();
+        } catch (error) {
+          console.error('Failed to copy text: ', error);
         }
       }
 
@@ -464,13 +460,17 @@ const heroImageSizes = '(max-width: 620px) calc(100vw - 1rem), (max-width: 880px
           .toLowerCase();
       }
 
+      cards.forEach((card) => {
+        card.dataset.searchNormalized = normalize(card.dataset.search ?? '');
+      });
+
       function applyFilters() {
         const query = normalize(searchInput?.value ?? '');
         let visible = 0;
 
         cards.forEach((card) => {
           const matchesCategory = activeCategory === 'all' || card.dataset.category === activeCategory;
-          const matchesSearch = !query || normalize(card.dataset.search ?? '').includes(query);
+          const matchesSearch = !query || card.dataset.searchNormalized.includes(query);
           const shouldShow = matchesCategory && matchesSearch;
           card.toggleAttribute('hidden', !shouldShow);
           if (shouldShow) visible += 1;
