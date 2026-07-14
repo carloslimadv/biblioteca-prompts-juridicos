@@ -1,6 +1,6 @@
 # Manual de prompts jurídicos para IA
 
-[![Astro](https://img.shields.io/badge/Astro-6-1b1b1b?style=flat-square)](https://astro.build/)
+[![Astro](https://img.shields.io/badge/Astro-7-1b1b1b?style=flat-square)](https://astro.build/)
 [![GitHub Pages](https://img.shields.io/badge/deploy-GitHub%20Pages-123c31?style=flat-square)](https://carloslimadv.github.io/biblioteca-prompts-juridicos/)
 [![pt-BR](https://img.shields.io/badge/idioma-pt--BR-9a5a2e?style=flat-square)](#)
 
@@ -12,6 +12,21 @@ Página pública para apresentar, explicar e disponibilizar uma biblioteca curad
 <a href="https://www.buymeacoffee.com/carloslimadv" target="_blank" rel="noopener noreferrer">
   <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Compre-me um café" width="210" />
 </a>
+
+## Revisão metodológica para GPT-5.6
+
+O contrato comum dos 41 prompts foi revisto em 14 de julho de 2026 com base no [guia oficial de prompts do GPT-5.6](https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6) e no [guia do modelo atual](https://developers.openai.com/api/docs/guides/latest-model).
+
+A revisão mantém a biblioteca independente de fornecedor e concentra as mudanças no que afeta o comportamento:
+
+- resultado e critérios de conclusão explícitos;
+- evidências vinculadas às afirmações, com conflitos e lacunas identificados;
+- limites de autonomia proporcionais ao tipo de tarefa;
+- formato de saída verificável;
+- regra de parada que pede somente o dado necessário e continua nas partes independentes;
+- validação final antes de considerar a entrega concluída.
+
+As marcações de complexidade baixa, média ou alta são editoriais. Elas não equivalem diretamente ao parâmetro `reasoning.effort` da API. Em uma migração, preserve primeiro o esforço já usado e compare o mesmo nível com um abaixo em casos representativos.
 
 ## Para que serve
 
@@ -32,7 +47,7 @@ Na prática, a página ajuda o usuário a:
 | Abertura editorial | Apresenta o manual com posicionamento jurídico, técnico e responsável. |
 | Biblioteca | Lista os 41 prompts curados em itens expansíveis, com busca, filtros e botão de cópia. |
 | Temas | Agrupa prompts por peças e revisão, fatos e documentos, estratégia processual, cliente e atendimento, gestão do escritório, marketing jurídico ético, automação e rotinas, pesquisa e validação. |
-| Raciocínio recomendado | Indica se a tarefa exige raciocínio baixo, médio ou alto. |
+| Complexidade editorial | Indica se a tarefa tem complexidade baixa, média ou alta; não é um valor literal de `reasoning.effort`. |
 | Guia de uso | Explica a diferença entre uso avulso, rotina permanente e automação supervisionada. |
 | Boas práticas | Resume a estrutura recomendada para prompts jurídicos verificáveis. |
 | Limites | Reforça revisão humana, sigilo, LGPD, ética da OAB e checagem de fontes oficiais. |
@@ -52,11 +67,11 @@ Esta página foi desenhada para:
 Os prompts seguem uma lógica simples: uma boa resposta começa com uma boa instrução. Por isso, cada prompt prioriza:
 
 - objetivo claro;
-- contexto mínimo necessário;
-- restrições explícitas;
+- material mínimo necessário;
+- restrições e evidências explícitas;
 - formato de saída previsível;
 - critérios de sucesso;
-- regras de parada;
+- limites de autonomia e regras de parada;
 - indicação do que precisa ser conferido por fonte oficial;
 - separação entre dado informado, inferência, lacuna e risco.
 

@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { buildPrompt, PromptDraft } from './prompts';
+import { describe, expect, it } from "vitest";
+import { buildPrompt, type PromptDraft } from "./prompts";
 
 describe('buildPrompt', () => {
   const mockDraft: PromptDraft = {
@@ -30,32 +30,32 @@ describe('buildPrompt', () => {
     // Verify inputs are mapped to a list with "[preencher]"
     expect(result).toContain('# Material necessário\n- documento 1: [preencher]\n- documento 2: [preencher]');
 
-    // Verify sharedRules are included (checking a key part of it)
-    expect(result).toContain('# Regras de segurança\n- Separe fato informado, prova, inferência, lacuna e risco.');
+    expect(result).toContain("# Restrições e evidências");
+    expect(result).toContain("Separe fato informado, prova, inferência, lacuna e risco.");
+    expect(result).toContain("# Limites de autonomia");
 
     // Verify outputs are mapped to a numbered list
-    expect(result).toContain('# Entrega\n1. resumo\n2. conclusão');
+    expect(result).toContain("# Entrega e critérios de sucesso\n1. resumo\n2. conclusão");
 
     // Verify doNotUse is included
-    expect(result).toContain('# Quando não usar\nDo not use for real legal cases.');
+    expect(result).toContain("# Quando não usar\nDo not use for real legal cases.");
 
     // Verify stop is included
-    expect(result).toContain('# Condição de parada\nStop if the documents are missing.');
+    expect(result).toContain("# Condição de parada\nStop if the documents are missing.");
+    expect(result).toContain("# Verificação final");
   });
 
   it('should handle empty inputs gracefully', () => {
     const emptyInputsDraft = { ...mockDraft, inputs: [] };
     const result = buildPrompt(emptyInputsDraft);
 
-    expect(result).toContain('# Material necessário\n\n'); // Two newlines before sharedRules
+    expect(result).toContain("# Material necessário\n\n");
   });
 
   it('should handle empty outputs gracefully', () => {
     const emptyOutputsDraft = { ...mockDraft, output: [] };
     const result = buildPrompt(emptyOutputsDraft);
 
-    // An empty output array joined by \n will result in an empty string
-    // followed directly by the newline from the template literal
-    expect(result).toContain('# Entrega\n\n\n# Quando não usar');
+    expect(result).toContain("# Entrega e critérios de sucesso\n\nConsidere a entrega pronta");
   });
 });

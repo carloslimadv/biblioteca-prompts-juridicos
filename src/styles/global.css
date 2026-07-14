@@ -481,6 +481,99 @@ h3 {
   padding: var(--section-tight) 0;
 }
 
+.method-update {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.82fr) minmax(0, 1.18fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  padding: var(--section-roomy) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.method-update-heading h2 {
+  max-width: 13ch;
+}
+
+.method-update-heading > p:last-child {
+  max-width: 65ch;
+  color: var(--ink-soft);
+  font-size: 1.06rem;
+}
+
+.method-kicker {
+  margin: 0 0 var(--space-md);
+  color: var(--copper);
+  font-weight: 760;
+}
+
+.method-changes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: method;
+}
+
+.method-changes li {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.72fr) minmax(0, 1fr);
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+  border-top: 1px solid var(--line);
+  counter-increment: method;
+}
+
+.method-changes li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.method-changes strong {
+  color: var(--ink);
+}
+
+.method-changes strong::before {
+  content: "0" counter(method) " · ";
+  color: var(--copper);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.method-changes span,
+.method-note {
+  color: var(--ink-soft);
+}
+
+.method-note {
+  margin: var(--space-lg) 0 0;
+  padding: var(--space-md);
+  border: 1px solid oklch(38% 0.037 154);
+  border-radius: 8px;
+  background: oklch(20% 0.026 158);
+}
+
+.method-note code {
+  color: var(--primary);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+.method-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.method-links a {
+  color: var(--primary);
+  font-weight: 760;
+  text-underline-offset: 0.22em;
+}
+
+.method-links a:hover {
+  color: var(--copper);
+}
+
 .benefits,
 .practices {
   padding: var(--section-roomy) 0;
@@ -958,6 +1051,7 @@ pre {
 
   .hero,
   .intro,
+  .method-update,
   .guide,
   .limits,
   .library-top {
@@ -1103,6 +1197,7 @@ pre {
   }
 
   .intro,
+  .method-update,
   .guide,
   .limits,
   .benefits,
@@ -1114,6 +1209,11 @@ pre {
 
   .section-heading {
     margin-bottom: var(--space-xl);
+  }
+
+  .method-changes li {
+    grid-template-columns: 1fr;
+    gap: var(--space-xs);
   }
 
   .filter-list {

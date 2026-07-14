@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { categories, prompts } from '../data/prompts';
+import { categories, promptMethod, prompts } from '../data/prompts';
 
 const countBy = (field: 'category') => prompts.reduce<Record<string, number>>((acc, prompt) => {
   acc[prompt[field]] = (acc[prompt[field]] ?? 0) + 1;
@@ -44,10 +44,10 @@ const heroImageSizes = '(max-width: 620px) calc(100vw - 1rem), (max-width: 880px
     <meta name="generator" content={Astro.generator} />
     <meta
       name="description"
-      content="Biblioteca pública curada com 41 prompts jurídicos em pt-BR, adaptados para uso responsável com modelos de IA na advocacia brasileira."
+      content="Biblioteca pública com 41 prompts jurídicos verificáveis em pt-BR, com evidências, limites e revisão humana para a advocacia brasileira."
     />
     <meta property="og:title" content="Manual de prompts jurídicos para IA" />
-    <meta property="og:description" content="41 prompts jurídicos curados com regras de validação, revisão humana e uso prático em modelos de IA." />
+    <meta property="og:description" content="41 prompts jurídicos curados com evidências, limites, regras de parada e revisão humana." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={heroImageOg} />
@@ -83,6 +83,7 @@ const heroImageSizes = '(max-width: 620px) calc(100vw - 1rem), (max-width: 880px
       <div class="header-actions">
         <nav class="nav" aria-label="Navegação principal">
           <a href="#biblioteca">Biblioteca</a>
+          <a href="#metodo">Método</a>
           <a href="#guia">Guia</a>
           <a href="#boas-praticas">Boas práticas</a>
           <a href="#limites">Limites</a>
@@ -132,13 +133,13 @@ const heroImageSizes = '(max-width: 620px) calc(100vw - 1rem), (max-width: 880px
             />
           </figure>
           <div class="visual-head">
-            <span>prompt jurídico</span>
-            <strong>raciocínio alto</strong>
+            <span>contrato de prompt</span>
+            <strong>complexidade alta</strong>
           </div>
           <div class="visual-body">
-            <p><b>Objetivo</b> transformar tarefa jurídica em instrução clara, revisável e útil.</p>
-            <p><b>Validação</b> separar fato, prova, inferência, lacuna, risco e fonte conferida.</p>
-            <p><b>Parada</b> pedir complementação quando faltar dado essencial ou documento.</p>
+            <p><b>Resultado</b> transformar a tarefa jurídica em entrega clara, revisável e útil.</p>
+            <p><b>Evidência</b> vincular fonte ao ponto sustentado e separar inferência, lacuna e risco.</p>
+            <p><b>Parada</b> pedir o menor dado faltante e continuar no que for independente.</p>
           </div>
           <div class="visual-grid" aria-hidden="true">
             <span>peças</span>
@@ -159,6 +160,30 @@ const heroImageSizes = '(max-width: 620px) calc(100vw - 1rem), (max-width: 880px
         </p>
       </section>
 
+      <section class="method-update section-narrow" id="metodo" aria-labelledby="method-title">
+        <div class="method-update-heading">
+          <p class="method-kicker">Revisão metodológica · {promptMethod.reviewedOn}</p>
+          <h2 id="method-title">Menos roteiro repetido. Mais contrato verificável.</h2>
+          <p>
+            A biblioteca continua independente de fornecedor, mas seu contrato comum foi revisto para o {promptMethod.reviewedFor}: resultado visível, evidência, limites de autonomia, formato de saída e condição de parada.
+          </p>
+        </div>
+        <div>
+          <ol class="method-changes">
+            <li><strong>Evidência rastreável</strong><span>Citar apenas fontes acessadas, ligar cada fonte ao ponto sustentado e declarar conflitos ou lacunas.</span></li>
+            <li><strong>Autonomia proporcional</strong><span>Analisar sem mutar; executar mudanças locais quando pedidas; confirmar ações externas, destrutivas ou que ampliem o escopo.</span></li>
+            <li><strong>Parada útil</strong><span>Solicitar o menor dado faltante, bloquear somente a conclusão dependente e continuar nas partes independentes.</span></li>
+          </ol>
+          <p class="method-note">
+            A complexidade indicada em cada item é editorial e não equivale diretamente ao parâmetro <code>reasoning.effort</code>. Em uma migração de API, preserve primeiro o esforço atual e compare o mesmo nível com um abaixo em casos representativos.
+          </p>
+          <div class="method-links" aria-label="Documentação oficial da revisão">
+            <a href={promptMethod.promptingGuide} target="_blank" rel="noopener noreferrer">Guia de prompts do GPT-5.6</a>
+            <a href={promptMethod.latestModelGuide} target="_blank" rel="noopener noreferrer">Guia do modelo atual</a>
+          </div>
+        </div>
+      </section>
+
       <section class="benefits section-band" aria-labelledby="benefits-title">
         <div class="section-heading">
           <p class="eyebrow">Benefícios</p>
@@ -168,7 +193,7 @@ const heroImageSizes = '(max-width: 620px) calc(100vw - 1rem), (max-width: 880px
           <article>
             <span>01</span>
             <h3>Menos prompt solto</h3>
-            <p>Estrutura fixa com papel, objetivo, contexto, critérios de sucesso, restrições, saída e regras de parada.</p>
+            <p>Estrutura fixa com objetivo, material, evidências, critérios de sucesso, limites de autonomia, saída e regras de parada.</p>
           </article>
           <article>
             <span>02</span>
@@ -236,7 +261,7 @@ const heroImageSizes = '(max-width: 620px) calc(100vw - 1rem), (max-width: 880px
                     <span class="summary-copy">
                       <span class="card-meta">
                         <span>{prompt.categoryLabel}</span>
-                        <span class={`reasoning reasoning-${prompt.reasoning}`}>raciocínio {prompt.reasoning}</span>
+                        <span class={`reasoning reasoning-${prompt.reasoning}`} title="Classificação editorial da complexidade da tarefa">complexidade: {prompt.reasoning}</span>
                       </span>
                       <strong>{prompt.title}</strong>
                       <em>{prompt.purpose}</em>
@@ -315,20 +340,20 @@ const heroImageSizes = '(max-width: 620px) calc(100vw - 1rem), (max-width: 880px
         </div>
         <div class="practice-grid">
           <article>
-            <h3>Contexto antes da tarefa</h3>
-            <p>Explique cliente, fase, documentos, objetivo, restrições e o que já foi decidido. Sem contexto, o modelo preenche lacunas por inferência.</p>
+            <h3>Destino antes do roteiro</h3>
+            <p>Defina resultado, material disponível, restrições e o que precisa estar verdadeiro ao final. Prescreva etapas apenas quando mudarem o comportamento.</p>
           </article>
           <article>
             <h3>Contrato de saída</h3>
             <p>Defina exatamente as seções esperadas, tamanho, tom e formato. Isso reduz respostas longas, vagas ou difíceis de revisar.</p>
           </article>
           <article>
-            <h3>Critérios de sucesso</h3>
-            <p>Diga o que precisa estar verdadeiro para a resposta ser considerada pronta: fonte conferida, riscos listados, lacunas separadas e próxima ação clara.</p>
+            <h3>Evidência rastreável</h3>
+            <p>Cite somente fontes consultadas, ligue cada uma à afirmação sustentada e separe fato, inferência, conflito, lacuna e risco.</p>
           </article>
           <article>
             <h3>Regras de parada</h3>
-            <p>Instrua o modelo a parar quando faltar prova, prazo, documento, tribunal, dado financeiro, autorização ou fonte oficial.</p>
+            <p>Peça o menor dado faltante, continue nas partes independentes e não conclua o ponto que dependa de prova, prazo, autorização ou fonte ausente.</p>
           </article>
         </div>
       </section>
@@ -355,7 +380,7 @@ const heroImageSizes = '(max-width: 620px) calc(100vw - 1rem), (max-width: 880px
     <footer class="site-footer">
       <div>
         <p>Manual de prompts jurídicos para IA.</p>
-        <p>Conteúdo adaptado para uso responsável com modelos de IA, com revisão humana obrigatória.</p>
+        <p>Método revisto em julho de 2026; uso responsável e revisão humana continuam obrigatórios.</p>
       </div>
       <div class="footer-links" aria-label="Links do projeto">
         <a href={instagramUrl} target="_blank" rel="noopener noreferrer">Instagram</a>

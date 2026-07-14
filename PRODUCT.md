@@ -16,7 +16,8 @@ Sóbrio, técnico, direto e responsável. A página deve parecer feita por quem 
 
 ## Princípios
 
-- Cada prompt deve separar objetivo, contexto, critérios de sucesso, restrições, formato de saída e regras de parada.
+- Cada prompt deve separar objetivo, material, evidências, critérios de sucesso, limites de autonomia, formato de saída e regras de parada.
+- O contrato editorial deve permanecer independente de fornecedor, com revisões metodológicas datadas conforme a documentação oficial vigente.
 - A biblioteca deve reforçar revisão humana, checagem de fontes e limites éticos.
 - A interface deve favorecer exploração rápida: busca, filtros, expansão e cópia.
 - A publicação deve ser simples: Astro estático e GitHub Pages.
