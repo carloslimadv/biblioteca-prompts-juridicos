@@ -18,7 +18,9 @@ Tipografia editorial com hierarquia forte, medidas legíveis e títulos grandes 
 
 ## Componentes
 
-Itens de biblioteca com borda completa, cantos discretos, expansão progressiva, botões com estados de foco visíveis e marcadores pequenos para categoria e raciocínio recomendado. Ferramentas de busca e filtros devem permanecer no fluxo da página, sem painel fixo cobrindo a leitura.
+Itens de biblioteca com borda completa, cantos discretos, expansão progressiva, botões com estados de foco visíveis e marcadores pequenos para categoria e complexidade editorial. Ferramentas de busca e filtros devem permanecer no fluxo da página, sem painel fixo cobrindo a leitura.
+
+A revisão metodológica deve aparecer como nota editorial datada, sem renomear o produto para um modelo específico. A classificação dos itens deve ser apresentada como complexidade editorial, não como parâmetro literal de API.
 
 ## Movimento
 
