@@ -1,6 +1,6 @@
 # Manual de prompts jurídicos para IA
 
-[![Astro](https://img.shields.io/badge/Astro-6-1b1b1b?style=flat-square)](https://astro.build/)
+[![Astro](https://img.shields.io/badge/Astro-7-1b1b1b?style=flat-square)](https://astro.build/)
 [![GitHub Pages](https://img.shields.io/badge/deploy-GitHub%20Pages-123c31?style=flat-square)](https://carloslimadv.github.io/biblioteca-prompts-juridicos/)
 [![pt-BR](https://img.shields.io/badge/idioma-pt--BR-9a5a2e?style=flat-square)](#)
 
