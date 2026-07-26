@@ -18,7 +18,17 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
-// 1. Generate prompts.json
+// 1. Copy public assets to published root
+const publicDir = path.join(__dirname, 'public');
+if (fs.existsSync(publicDir)) {
+  const publicFiles = fs.readdirSync(publicDir);
+  for (const file of publicFiles) {
+    fs.copyFileSync(path.join(publicDir, file), path.join(__dirname, file));
+  }
+  console.log('Copied public assets to root');
+}
+
+// 2. Generate prompts.json
 const promptsJsonData = prompts.map((prompt) => ({
   id: prompt.id,
   prompt: prompt.prompt,
