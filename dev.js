@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const outputDir = path.join(__dirname, 'dist');
 const PORT = process.env.PORT || 3000;
 
 const mimeTypes = {
@@ -22,10 +23,7 @@ const server = http.createServer((req, res) => {
   let reqPath = req.url.split('?')[0];
   if (reqPath === '/') reqPath = '/index.html';
 
-  let filePath = path.join(__dirname, reqPath);
-  if (!fs.existsSync(filePath) && fs.existsSync(path.join(__dirname, 'public', reqPath))) {
-    filePath = path.join(__dirname, 'public', reqPath);
-  }
+  const filePath = path.join(outputDir, reqPath);
 
   const ext = path.extname(filePath);
   const contentType = mimeTypes[ext] || 'application/octet-stream';

@@ -1,5 +1,11 @@
 # build output
 dist/
+# generated site files belong only in dist/
+index.html
+prompts.json
+favicon.ico
+favicon.svg
+.nojekyll
 # generated types
 .astro/
 

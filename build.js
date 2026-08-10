@@ -7,6 +7,11 @@ import { categories, promptMethod, prompts } from './src/data/prompts.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const outputDir = path.join(__dirname, 'dist');
+
+// Start clean so files removed from the source cannot linger in a deployment.
+fs.rmSync(outputDir, { recursive: true, force: true });
+fs.mkdirSync(outputDir, { recursive: true });
 
 function escapeHtml(str) {
   if (str == null) return '';
@@ -18,15 +23,18 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
-// 1. Copy public assets to published root
+// 1. Copy static assets to the isolated publish directory.
 const publicDir = path.join(__dirname, 'public');
 if (fs.existsSync(publicDir)) {
   const publicFiles = fs.readdirSync(publicDir);
   for (const file of publicFiles) {
-    fs.copyFileSync(path.join(publicDir, file), path.join(__dirname, file));
+    fs.cpSync(path.join(publicDir, file), path.join(outputDir, file), { recursive: true });
   }
-  console.log('Copied public assets to root');
 }
+for (const directory of ['js', 'styles']) {
+  fs.cpSync(path.join(__dirname, directory), path.join(outputDir, directory), { recursive: true });
+}
+console.log('Copied static assets to dist');
 
 // 2. Generate prompts.json
 const promptsJsonData = prompts.map((prompt) => ({
@@ -35,7 +43,7 @@ const promptsJsonData = prompts.map((prompt) => ({
 }));
 
 fs.writeFileSync(
-  path.join(__dirname, 'prompts.json'),
+  path.join(outputDir, 'prompts.json'),
   JSON.stringify(promptsJsonData, null, 2),
   'utf-8'
 );
@@ -433,5 +441,5 @@ const htmlContent = `<!doctype html>
 </html>
 `;
 
-fs.writeFileSync(path.join(__dirname, 'index.html'), htmlContent, 'utf-8');
+fs.writeFileSync(path.join(outputDir, 'index.html'), htmlContent, 'utf-8');
 console.log('Generated index.html');
