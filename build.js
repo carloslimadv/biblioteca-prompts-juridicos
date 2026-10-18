@@ -49,397 +49,188 @@ fs.writeFileSync(
 );
 console.log('Generated prompts.json');
 
-// 2. Compute category counts and order prompts
-const countBy = (field) =>
-  prompts.reduce((acc, prompt) => {
-    acc[prompt[field]] = (acc[prompt[field]] ?? 0) + 1;
-    return acc;
-  }, {});
-
-const categoryCounts = countBy('category');
-const categoryOrder = new Map(categories.map((category, index) => [category.id, index]));
-const displayPrompts = prompts
-  .map((p) => ({
-    p,
-    cat: categoryOrder.get(p.category) ?? 999,
-    numId: p.id === 'p0' ? -1 : parseInt(p.id.substring(1), 10),
-  }))
-  .sort((a, b) => {
-    if (a.numId === -1) return -1;
-    if (b.numId === -1) return 1;
-    const categoryDelta = a.cat - b.cat;
-    if (categoryDelta !== 0) return categoryDelta;
-    return a.numId - b.numId;
-  })
-  .map((x) => x.p);
-
+// 3. Group prompts by category, keeping the catalog order.
 const totalPrompts = prompts.length;
 const canonicalUrl = 'https://carloslimadv.github.io/biblioteca-prompts-juridicos/';
 const instagramUrl = 'https://www.instagram.com/henriquesantana.adv/';
+const supportUrl = 'https://www.buymeacoffee.com/carloslimadv';
 const repositoryUrl = 'https://github.com/carloslimadv/biblioteca-prompts-juridicos';
 const fontStylesheet =
-  'https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500..800&family=Outfit:wght@400;500;600;700;800&display=swap';
+  'https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Hanken+Grotesk:wght@400..700&display=swap';
+
+const groups = categories
+  .filter((category) => category.id !== 'all')
+  .map((category) => ({ ...category, items: prompts.filter((prompt) => prompt.category === category.id) }))
+  .filter((group) => group.items.length > 0);
+
+const countLabel = (count) => `${count} prompt${count === 1 ? '' : 's'}`;
 
 const filterChipsHtml = categories
   .map(
     (category) => `
-              <button
-                class="filter-chip"
-                type="button"
-                data-category-filter="${category.id}"
-                aria-pressed="${category.id === 'all' ? 'true' : 'false'}"
-              >
-                <span>${escapeHtml(category.label)}</span>
-                <small>${category.id === 'all' ? totalPrompts : categoryCounts[category.id] ?? 0}</small>
-              </button>`
+          <button class="chip" type="button" data-category-filter="${category.id}" aria-pressed="${category.id === 'all' ? 'true' : 'false'}">${escapeHtml(category.label)}</button>`
   )
   .join('');
 
-const promptCardsHtml = displayPrompts
-  .map((prompt, index) => {
-    const searchAttr = `${prompt.title} ${prompt.categoryLabel} ${prompt.architectureLabel} ${prompt.purpose} ${prompt.minimumInputs.join(' ')} ${prompt.example} ${prompt.variations.join(' ')}`;
-    const minimumInputsList = prompt.minimumInputs.map((input) => `<li>${escapeHtml(input)}</li>`).join('\n                          ');
-    const variationsList = prompt.variations.map((variation) => `<li>${escapeHtml(variation)}</li>`).join('\n                          ');
+const promptCardHtml = (prompt) => {
+  const searchAttr = `${prompt.title} ${prompt.purpose} ${prompt.categoryLabel} ${prompt.needs.join(' ')}`;
+  const needsList = prompt.needs.map((need) => `<li>${escapeHtml(need)}</li>`).join('');
+  const coworkNote = prompt.cowork
+    ? '<p class="cowork-note">Funciona melhor no Cowork, com a pasta do caso aberta.</p>'
+    : '';
 
-    return `
-              <article
-                id="${prompt.id}"
-                class="prompt-card"
-                data-prompt-id="${prompt.id}"
-                data-category="${prompt.category}"
-                data-search="${escapeHtml(searchAttr)}"
-              >
-                <details>
-                  <summary>
-                    <span class="prompt-index">${String(index + 1).padStart(2, '0')}</span>
-                    <span class="summary-copy">
-                      <span class="card-meta">
-                        <span>${escapeHtml(prompt.categoryLabel)}</span>
-                        <span class="reasoning reasoning-${prompt.reasoning}" title="Classificação editorial da complexidade da tarefa">complexidade: ${escapeHtml(prompt.reasoning)}</span>
-                      </span>
-                      <strong>${escapeHtml(prompt.title)}</strong>
-                      <em>${escapeHtml(prompt.purpose)}</em>
-                    </span>
-                  </summary>
-                  <div class="card-content">
-                    <div class="prompt-actions">
-                      <span>Prompt completo</span>
-                      <div class="prompt-action-buttons">
-                        <button class="copy-button" type="button" data-copy-prompt data-prompt-id="${prompt.id}">Copiar prompt</button>
-                        <button class="copy-button secondary-copy" type="button" data-copy-link data-prompt-id="${prompt.id}">Copiar link</button>
-                      </div>
-                    </div>
-                    <pre id="prompt-text-${prompt.id}" data-loaded="false">Abra o item para carregar o prompt completo.</pre>
-
-                    <div class="detail-columns">
-                      <section>
-                        <h3>Insumos mínimos</h3>
-                        <ul>
-                          ${minimumInputsList}
-                        </ul>
-                      </section>
-                      <section>
-                        <h3>Exemplo de saída</h3>
-                        <p>${escapeHtml(prompt.example)}</p>
-                      </section>
-                    </div>
-
-                    <div class="detail-columns">
-                      <section>
-                        <h3>Variações úteis</h3>
-                        <ul>
-                          ${variationsList}
-                        </ul>
-                      </section>
-                      <section>
-                        <h3>Arquitetura</h3>
-                        <p>${escapeHtml(prompt.architectureLabel)}. Use como ponto de partida e adapte ao contexto, aos documentos e ao nível de revisão necessário.</p>
-                      </section>
-                    </div>
+  return `
+            <article id="${prompt.id}" class="prompt-card" data-prompt-id="${prompt.id}" data-category="${prompt.category}" data-search="${escapeHtml(searchAttr)}">
+              <details>
+                <summary>
+                  <span class="prompt-title">${escapeHtml(prompt.title)}</span>
+                  <span class="prompt-purpose">${escapeHtml(prompt.purpose)}</span>
+                  <span class="prompt-toggle" aria-hidden="true">+</span>
+                </summary>
+                <div class="prompt-body">
+                  <div class="prompt-needs">
+                    ${coworkNote}
+                    <p class="needs-title">Tenha em mãos</p>
+                    <ul>${needsList}</ul>
                   </div>
-                </details>
-              </article>`;
-  })
-  .join('\n');
+                  <button class="button button-dark" type="button" data-copy-prompt>Copiar prompt</button>
+                  <details class="prompt-text">
+                    <summary>Ver o texto do prompt</summary>
+                    <pre id="prompt-text-${prompt.id}" data-loaded="false">Carregando…</pre>
+                  </details>
+                </div>
+              </details>
+            </article>`;
+};
+
+const groupsHtml = groups
+  .map(
+    (group) => `
+          <section class="prompt-group" data-group="${group.id}" aria-labelledby="grupo-${group.id}">
+            <h3 id="grupo-${group.id}"><span>${escapeHtml(group.label)}</span><small data-group-count>${countLabel(group.items.length)}</small></h3>
+            ${group.items.map(promptCardHtml).join('')}
+          </section>`
+  )
+  .join('');
 
 const htmlContent = `<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <meta
-      name="description"
-      content="Biblioteca pública com 41 prompts jurídicos verificáveis em pt-BR, com evidências, limites e revisão humana para a advocacia brasileira."
-    />
-    <meta property="og:title" content="Manual de prompts jurídicos para IA" />
-    <meta property="og:description" content="41 prompts jurídicos curados com evidências, limites, regras de parada e revisão humana." />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="${totalPrompts} prompts jurídicos gratuitos em português, prontos para copiar e colar no Claude. Para advogados que não entendem de IA." />
+    <meta property="og:title" content="Prompts jurídicos para Claude" />
+    <meta property="og:description" content="${totalPrompts} prompts prontos para o dia a dia do escritório: petições, prazos, clientes e gestão." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="${canonicalUrl}" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="theme-color" content="#123c31" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#fafaf7" />
+    <meta name="color-scheme" content="light" />
     <link rel="canonical" href="${canonicalUrl}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href="${fontStylesheet}" />
     <link rel="stylesheet" href="${fontStylesheet}" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="${fontStylesheet}" /></noscript>
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="icon" href="favicon.ico" />
     <link rel="stylesheet" href="styles/global.css" />
-    <title>Manual de prompts jurídicos para IA</title>
+    <title>Prompts jurídicos para Claude</title>
   </head>
   <body>
-    <a class="skip-link" href="#biblioteca">Ir para a biblioteca</a>
-
-    <!-- N6 Newspaper Masthead -->
-    <header class="site-header" aria-label="Cabeçalho principal">
-      <div class="masthead-top">
-        <a class="brand" href="#topo" aria-label="Manual de prompts jurídicos">
-          <span class="brand-mark" aria-hidden="true">§</span>
-          <span class="brand-title">Manual de prompts jurídicos</span>
-        </a>
-        <div class="masthead-meta">
-          <a href="${instagramUrl}" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="https://www.buymeacoffee.com/carloslimadv" target="_blank" rel="noopener noreferrer">Apoiar projeto</a>
-        </div>
+    <a class="skip-link" href="#biblioteca">Ir para os prompts</a>
+    <header class="site-header">
+      <div class="wrap header-row">
+        <a class="brand" href="#topo">Prompts jurídicos</a>
+        <nav class="nav" aria-label="Navegação principal">
+          <a href="#biblioteca">Prompts</a>
+          <a href="#como-usar">Como usar</a>
+          <a href="#cuidados">Cuidados</a>
+        </nav>
       </div>
-      <nav class="nav" aria-label="Navegação principal">
-        <a href="#biblioteca">Biblioteca</a>
-        <a href="#metodo">Método</a>
-        <a href="#guia">Guia</a>
-        <a href="#boas-praticas">Boas práticas</a>
-        <a href="#limites">Limites</a>
-      </nav>
     </header>
-
     <main id="topo" data-prompts-url="prompts.json">
-      <section class="hero section-band" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow">Prompts verificáveis para advocacia brasileira</p>
-          <h1 id="hero-title">Manual de prompts jurídicos para IA</h1>
-          <p class="hero-lead">
-            Uma biblioteca pública com 41 prompts jurídicos curados para produzir trabalho útil, verificável e pronto para revisão humana.
-          </p>
-          <div class="hero-actions" aria-label="Ações principais">
-            <a class="button primary" href="#biblioteca">Explorar biblioteca</a>
-            <a class="button secondary" href="#guia">Ver guia de uso</a>
-          </div>
-        </div>
-
-        <!-- Pure Specimen Card (No Stock Photo) -->
-        <aside class="hero-visual" aria-label="Exemplo de prompt estruturado">
-          <div class="visual-badge">
-            <span>Contrato de prompt</span>
-            <span class="reasoning reasoning-alto">complexidade alta</span>
-          </div>
-          <div class="visual-specimen-box">
-            <div class="specimen-line">
-              <span class="specimen-num">01</span>
-              <div>
-                <strong>Objetivo & Resultado</strong>
-                <p>Transformar a tarefa jurídica em entrega clara, revisável e diretamente aproveitável.</p>
-              </div>
-            </div>
-            <div class="specimen-line">
-              <span class="specimen-num">02</span>
-              <div>
-                <strong>Evidência Rastreável</strong>
-                <p>Vincular fonte ao ponto sustentado e declarar fatos, inferências, lacunas e riscos.</p>
-              </div>
-            </div>
-            <div class="specimen-line">
-              <span class="specimen-num">03</span>
-              <div>
-                <strong>Regra de Parada</strong>
-                <p>Solicitar o menor dado faltante e prosseguir em todas as etapas independentes.</p>
-              </div>
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <p class="kicker">Biblioteca gratuita · ${totalPrompts} prompts</p>
+            <h1>Prompts prontos para o dia a dia do escritório.</h1>
+            <p class="lead">Copie, cole no Claude, preencha os campos entre colchetes e revise o resultado. <mark>Não precisa entender de IA.</mark></p>
+            <div class="hero-actions">
+              <a class="button button-dark" href="#biblioteca">Ver os prompts</a>
+              <a class="text-link" href="#como-usar">Como usar em 3 passos</a>
             </div>
           </div>
-          <div class="visual-grid" aria-hidden="true">
-            <span>peças</span>
-            <span>provas</span>
-            <span>contratos</span>
-            <span>gestão</span>
-          </div>
-        </aside>
-      </section>
-
-      <section class="intro section-narrow" aria-labelledby="intro-title">
-        <div>
-          <h2 id="intro-title">Prompts melhores reduzem retrabalho, mas não substituem advocacia.</h2>
-        </div>
-        <p>
-          A biblioteca foi desenhada para tarefas reais de escritório: contratos, peças, jurisprudência, atendimento, gestão, marketing jurídico, controladoria e tráfego. Cada prompt força contexto, critérios de sucesso, limites e revisão antes do uso profissional.
-        </p>
-      </section>
-
-      <section class="method-update section-narrow" id="metodo" aria-labelledby="method-title">
-        <div class="method-update-heading">
-          <p class="method-kicker">Revisão metodológica · ${escapeHtml(promptMethod.reviewedOn)}</p>
-          <h2 id="method-title">Menos roteiro repetido. Mais contrato verificável.</h2>
-          <p>
-            A biblioteca continua independente de fornecedor, mas seu contrato comum foi revisto para o ${escapeHtml(promptMethod.reviewedFor)}: resultado visível, evidência, limites de autonomia, formato de saída e condição de parada.
-          </p>
-        </div>
-        <div>
-          <ol class="method-changes">
-            <li><strong>Evidência rastreável</strong><span>Citar apenas fontes acessadas, ligar cada fonte ao ponto sustentado e declarar conflitos ou lacunas.</span></li>
-            <li><strong>Autonomia proporcional</strong><span>Analisar sem mutar; executar mudanças locais quando pedidas; confirmar ações externas, destrutivas ou que ampliem o escopo.</span></li>
-            <li><strong>Parada útil</strong><span>Solicitar o menor dado faltante, bloquear somente a conclusão dependente e continuar nas partes independentes.</span></li>
+          <ol class="steps">
+            <li><span class="step-num">1</span><span><strong>Escolha o prompt da tarefa</strong>Petição, prazo, cliente ou gestão.</span></li>
+            <li><span class="step-num">2</span><span><strong>Cole no Claude e preencha</strong>Troque cada [preencher] pelo documento ou dado do caso.</span></li>
+            <li><span class="step-num">3</span><span><strong>Revise antes de usar</strong>O Claude marca o que não conseguiu confirmar.</span></li>
           </ol>
-          <p class="method-note">
-            A complexidade indicada em cada item é editorial e não equivale diretamente ao parâmetro <code>reasoning.effort</code>. Em uma migração de API, preserve primeiro o esforço atual e compare o mesmo nível com um abaixo em casos representativos.
-          </p>
-          <div class="method-links" aria-label="Documentação oficial da revisão">
-            <a href="${promptMethod.promptingGuide}" target="_blank" rel="noopener noreferrer">Guia de prompts do GPT-5.6</a>
-            <a href="${promptMethod.latestModelGuide}" target="_blank" rel="noopener noreferrer">Guia do modelo atual</a>
-          </div>
         </div>
       </section>
 
-      <!-- Asymmetric Editorial Benefits -->
-      <section class="benefits section-band" aria-labelledby="benefits-title">
-        <div class="section-heading">
-          <h2 id="benefits-title">Feito para advogados que precisam de velocidade com lastro.</h2>
+      <section class="library" id="biblioteca" aria-labelledby="library-title">
+        <div class="wrap library-inner">
+          <div class="library-top">
+            <h2 id="library-title">Os prompts</h2>
+            <label class="search">
+              <span>Buscar</span>
+              <input id="prompt-search" type="search" placeholder="Ex.: inicial, prazo, WhatsApp" autocomplete="off" />
+            </label>
+          </div>
+          <div class="chips" role="group" aria-label="Filtrar por assunto">${filterChipsHtml}
+          </div>
+          <p class="visually-hidden" id="results-count" aria-live="polite">${totalPrompts} prompts encontrados</p>
+          <p class="empty-state" id="empty-state" hidden>Nenhum prompt encontrado. Tente outra palavra.</p>
+          ${groupsHtml}
         </div>
-        <div class="benefit-flow">
-          <article class="benefit-main">
-            <span class="benefit-num">01</span>
-            <h3>Menos prompt solto</h3>
-            <p>Estrutura fixa com objetivo, material, evidências, critérios de sucesso, limites de autonomia, saída e regras de parada para eliminar alucinações e lacunas.</p>
-          </article>
-          <div class="benefit-secondary-stack">
+      </section>
+
+      <section class="how" id="como-usar" aria-labelledby="how-title">
+        <div class="wrap">
+          <h2 id="how-title">Onde colar o prompt</h2>
+          <div class="how-grid">
             <article>
-              <span class="benefit-num">02</span>
-              <h3>Mais controle jurídico</h3>
-              <p>Instruções explícitas contra invenção de fatos, jurisprudência, dispositivos, prazos, valores e documentos.</p>
+              <h3>Na conversa do Claude</h3>
+              <p>Para uma tarefa só. Cole o prompt, anexe os documentos e envie.</p>
             </article>
             <article>
-              <span class="benefit-num">03</span>
-              <h3>Uso em rotina</h3>
-              <p>Cada prompt ajuda a transformar uma tarefa recorrente em instrução persistente, rotina de repositório ou automação supervisionada.</p>
+              <h3>Em um Projeto</h3>
+              <p>Para a tarefa que se repete toda semana. Salve o prompt nas instruções do Projeto e use sempre.</p>
+            </article>
+            <article>
+              <h3>No Cowork</h3>
+              <p>Quando o Claude precisa ler a pasta do caso no seu computador. Ele pede licença antes de mover ou apagar arquivos.</p>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="library section-band" id="biblioteca" aria-labelledby="library-title">
-        <div class="library-top">
-          <div>
-            <h2 id="library-title">${totalPrompts} prompts jurídicos para copiar, adaptar e validar.</h2>
-          </div>
-          <p>
-            Use a busca ou filtre por tema. Abra um item para ver prompt completo, insumos mínimos, exemplo, variações e arquitetura recomendada.
-          </p>
-        </div>
-
-        <div class="library-tools" aria-label="Ferramentas da biblioteca">
-          <label class="search-box">
-            <span>Buscar prompt</span>
-            <input id="prompt-search" type="search" placeholder="Ex.: contrato, sentença, WhatsApp, tráfego" autocomplete="off" />
-          </label>
-          <div class="filter-group">
-            <span class="filter-label">Tema</span>
-            <div class="filter-list" role="group" aria-label="Filtros por tema">
-              ${filterChipsHtml}
-            </div>
-          </div>
-          <p class="results-count" id="results-count" aria-live="polite">${totalPrompts} prompts encontrados</p>
-        </div>
-
-        <div class="prompt-grid" id="prompt-grid">
-          ${promptCardsHtml}
-        </div>
-
-        <p class="empty-state" id="empty-state" hidden>Nenhum prompt encontrado com esse filtro.</p>
-      </section>
-
-      <!-- Typographic List Guide Flow -->
-      <section class="guide section-narrow" id="guia" aria-labelledby="guide-title">
-        <div class="section-heading">
-          <h2 id="guide-title">Como usar os prompts</h2>
-        </div>
-        <div class="guide-flow">
-          <article class="guide-item">
-            <h3>01 · Uso avulso</h3>
-            <p>Copie o prompt, substitua os campos entre colchetes, anexe documentos quando necessário e peça a resposta em seções. Ideal para uma tarefa pontual no chat.</p>
-          </article>
-          <article class="guide-item">
-            <h3>02 · Rotina permanente</h3>
-            <p>Quando a tarefa se repete, transforme o prompt em instrução persistente ou arquivo de orientação da rotina. Inclua modelos do escritório e critérios de aceite.</p>
-          </article>
-          <article class="guide-item">
-            <h3>03 · Automação supervisionada</h3>
-            <p>Use automações apenas para tarefas reversíveis ou revisáveis. Produções jurídicas, comunicações externas e decisões estratégicas exigem aprovação humana.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="practices section-band" id="boas-praticas" aria-labelledby="practices-title">
-        <div class="section-heading">
-          <h2 id="practices-title">A estrutura recomendada para prompts jurídicos.</h2>
-        </div>
-        <div class="practice-grid">
-          <article>
-            <h3>Destino antes do roteiro</h3>
-            <p>Defina resultado, material disponível, restrições e o que precisa estar verdadeiro ao final. Prescreva etapas apenas quando mudarem o comportamento.</p>
-          </article>
-          <article>
-            <h3>Contrato de saída</h3>
-            <p>Defina exatamente as seções esperadas, tamanho, tom e formato. Isso reduz respostas longas, vagas ou difíceis de revisar.</p>
-          </article>
-          <article>
-            <h3>Evidência rastreável</h3>
-            <p>Cite somente fontes consultadas, ligue cada uma à afirmação sustentada e separe fato, inferência, conflito, lacuna e risco.</p>
-          </article>
-          <article>
-            <h3>Regras de parada</h3>
-            <p>Peça o menor dado faltante, continue nas partes independentes e não conclua o ponto que dependa de prova, prazo, autorização ou fonte ausente.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="limits section-narrow" id="limites" aria-labelledby="limits-title">
-        <div>
-          <h2 id="limits-title">IA acelera a preparação. A responsabilidade continua humana.</h2>
-        </div>
-        <div class="limits-copy">
-          <p>
-            Nenhum prompt desta biblioteca autoriza protocolo, envio ao cliente, publicação, campanha ou decisão jurídica sem revisão profissional. O modelo pode errar, omitir, inferir demais ou apresentar fonte aparente como se fosse válida.
-          </p>
+      <section class="care" id="cuidados" aria-labelledby="care-title">
+        <div class="wrap care-grid">
+          <h2 id="care-title">A IA prepara. Quem assina é você.</h2>
           <ul>
-            <li>Confira legislação, jurisprudência, prazos, valores e citações em fontes oficiais.</li>
-            <li>Proteja sigilo profissional, dados pessoais e documentos sensíveis.</li>
-            <li>Separe fato provado, documento, inferência, lacuna e risco antes de usar a saída.</li>
-            <li>Revise marketing jurídico contra o Código de Ética e o Provimento 205/2021 do CFOAB.</li>
+            <li>Confira lei, jurisprudência, prazo e valor na fonte oficial antes de usar.</li>
+            <li>Onde aparecer [CONFERIR EM FONTE OFICIAL], o Claude não conseguiu confirmar.</li>
+            <li>Não envie dado de cliente sem necessidade; proteja o sigilo.</li>
+            <li>Conteúdo para redes passa pelo Provimento 205/2021 da OAB.</li>
           </ul>
         </div>
       </section>
     </main>
-
-    <!-- Ft5 Statement Footer -->
-    <footer class="site-footer" aria-label="Rodapé do site">
-      <div class="footer-statement">
-        <span class="brand-mark" aria-hidden="true">§</span>
-        <div>
-          <h2>Manual de prompts jurídicos para IA</h2>
-          <p>Biblioteca pública em pt-BR com 41 prompts verificáveis para a advocacia brasileira. Método revisto em julho de 2026.</p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>Revisão humana obrigatória. Proteja sigilo e fontes oficiais.</span>
-        <div class="footer-links" aria-label="Links do projeto">
+    <footer class="site-footer">
+      <div class="wrap footer-row">
+        <span class="brand brand-light">Prompts jurídicos</span>
+        <nav aria-label="Links do projeto">
           <a href="${instagramUrl}" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="https://www.buymeacoffee.com/carloslimadv" target="_blank" rel="noopener noreferrer">Apoiar projeto</a>
-          <a href="${repositoryUrl}" target="_blank" rel="noopener noreferrer">Repositório no GitHub</a>
-        </div>
+          <a href="${supportUrl}" target="_blank" rel="noopener noreferrer">Apoiar o projeto</a>
+          <a href="${repositoryUrl}" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </nav>
+        <p class="footer-note">Material de apoio gratuito. Revisão humana obrigatória antes de qualquer uso profissional. Prompts revistos em ${escapeHtml(promptMethod.reviewedOn)} segundo as <a href="${promptMethod.promptingGuide}" target="_blank" rel="noopener noreferrer">boas práticas da Anthropic</a>.</p>
       </div>
     </footer>
-
     <script src="js/app.js" type="module"></script>
   </body>
 </html>
 `;
-
 fs.writeFileSync(path.join(outputDir, 'index.html'), htmlContent, 'utf-8');
 console.log('Generated index.html');
