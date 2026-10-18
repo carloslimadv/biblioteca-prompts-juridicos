@@ -1,4 +1,4 @@
-# Manual de prompts jurídicos para IA
+# Prompts jurídicos para Claude
 
 register: brand
 
@@ -19,7 +19,8 @@ Sóbrio, técnico, direto e responsável. A página deve parecer feita por quem 
 - Cada prompt deve separar objetivo, material, evidências, critérios de sucesso, limites de autonomia, formato de saída e regras de parada.
 - O contrato editorial deve permanecer independente de fornecedor, com revisões metodológicas datadas conforme a documentação oficial vigente.
 - A biblioteca deve reforçar revisão humana, checagem de fontes e limites éticos.
-- A interface deve favorecer exploração rápida: busca, filtros, expansão e cópia.
+- A interface deve ser simples para quem não entende de IA: nome da tarefa, o que ter em mãos e botão de copiar. Nada de rótulos técnicos.
+- Os prompts aparecem por tema, na ordem de uso no dia a dia, com o mais usado primeiro.
 - A publicação deve ser simples: HTML estático e GitHub Pages.
 
 ## Anti-referências

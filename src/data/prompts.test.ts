@@ -1,18 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { buildPrompt, prompts, type PromptDraft } from "./prompts";
+import { buildPrompt, categories, prompts, type PromptDraft } from "./prompts";
 
 describe('buildPrompt', () => {
   const mockDraft: PromptDraft = {
     id: "test-id",
-    title: "Test Title",
-    category: "pecas_revisao",
     usageMode: "chat",
     architecture: "analise",
-    purpose: "Test purpose",
-    minimumInputs: ["input1"],
-    reasoning: "baixo",
-    example: "Test example",
-    variations: ["var1"],
     rotina: "Test rotina",
     objective: "Create a test prompt",
     inputs: ["documento 1", "documento 2"],
@@ -67,5 +60,12 @@ describe('prompts', () => {
   it('should have unique ids', () => {
     const ids = prompts.map((p) => p.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it('should open each category with its most used prompt', () => {
+    expect(prompts[0].title).toBe("Petição inicial");
+    const categoryOrder = categories.map((category) => category.id).filter((id) => id !== "all");
+    const seen = [...new Set(prompts.map((p) => p.category))];
+    expect(seen).toEqual(categoryOrder);
   });
 });
