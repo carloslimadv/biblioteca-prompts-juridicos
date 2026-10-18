@@ -5,7 +5,7 @@
 [![pt-BR](https://img.shields.io/badge/idioma-pt--BR-9a5a2e?style=flat-square)](#)
 
 
-Página pública para apresentar, explicar e disponibilizar uma biblioteca curada de 41 prompts jurídicos em português do Brasil, pensada para advogados que usam modelos de IA com responsabilidade profissional.
+Página pública para apresentar, explicar e disponibilizar uma biblioteca curada de 49 prompts jurídicos em português do Brasil, pensada para advogados que usam modelos de IA com responsabilidade profissional.
 
 **Acesse:** [carloslimadv.github.io/biblioteca-prompts-juridicos](https://carloslimadv.github.io/biblioteca-prompts-juridicos/)
 
@@ -13,20 +13,23 @@ Página pública para apresentar, explicar e disponibilizar uma biblioteca curad
   <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Compre-me um café" width="210" />
 </a>
 
-## Revisão metodológica para GPT-5.6
+## Revisão metodológica para Claude
 
-O contrato comum dos 41 prompts foi revisto em 14 de julho de 2026 com base no [guia oficial de prompts do GPT-5.6](https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6) e no [guia do modelo atual](https://developers.openai.com/api/docs/guides/latest-model).
+O contrato comum dos prompts foi revisto em 18 de outubro de 2026 para uso com Claude no chat, no Cowork e no Claude Code, com base nas [boas práticas oficiais de prompts da Anthropic](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) e no [guia do Claude Opus 5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5). A versão anterior, de 14 de julho de 2026, seguia o guia do GPT-5.6.
 
-A revisão mantém a biblioteca independente de fornecedor e concentra as mudanças no que afeta o comportamento:
+O que mudou:
 
-- resultado e critérios de conclusão explícitos;
-- evidências vinculadas às afirmações, com conflitos e lacunas identificados;
-- limites de autonomia proporcionais ao tipo de tarefa;
-- formato de saída verificável;
-- regra de parada que pede somente o dado necessário e continua nas partes independentes;
-- validação final antes de considerar a entrega concluída.
+- seções em tags XML (`<material>`, `<objetivo>`, `<regras_de_evidencia>`, `<entrega>`, `<condicao_de_parada>`), com o material no topo e as instruções depois, como a Anthropic recomenda para documentos longos;
+- contexto com o motivo das regras: o resultado será assinado por advogado, por isso lacuna declarada vale mais que afirmação plausível;
+- localizar o trecho literal do documento antes de analisar;
+- conteúdo de documentos e de ferramentas tratado como dado, nunca como instrução, em todos os prompts;
+- extensão proporcional à tarefa e escopo preservado;
+- a "verificação final" genérica deu lugar a uma lista de pendências, porque os modelos atuais já revisam o próprio trabalho e a instrução redundante só aumenta custo;
+- autonomia para Cowork e Claude Code: passos locais e reversíveis sem pedir licença; confirmação antes de mover, apagar, sobrescrever, enviar ou protocolar.
 
-As marcações de complexidade baixa, média ou alta são editoriais. Elas não equivalem diretamente ao parâmetro `reasoning.effort` da API. Em uma migração, preserve primeiro o esforço já usado e compare o mesmo nível com um abaixo em casos representativos.
+Conteúdo: os prompts de padrão decisório de órgão e de relator foram fundidos; a matriz de precedentes passou a gerar bloco de citação apenas para precedente acessado; a atualização ao cliente passou a explicar decisões; e entraram nove prompts novos, adaptados de pedidos comuns de escritório: ficha de intake, prescrição e decadência por pedido, revisão pré-protocolo de petição, cumprimento de sentença, preparação para audiência, proposta de acordo, comparativo de teses, dossiê legislativo e fluxo encadeado de caso novo.
+
+As marcações de complexidade baixa, média ou alta são editoriais. Como referência, complexidade alta pede o modelo mais capaz disponível com raciocínio estendido ativo; na API, o controle equivalente é o parâmetro `effort`.
 
 ## Para que serve
 
@@ -45,7 +48,7 @@ Na prática, a página ajuda o usuário a:
 | Área | Função na página |
 | --- | --- |
 | Abertura editorial | Apresenta o manual com posicionamento jurídico, técnico e responsável. |
-| Biblioteca | Lista os 41 prompts curados em itens expansíveis, com busca, filtros e botão de cópia. |
+| Biblioteca | Lista os 49 prompts curados em itens expansíveis, com busca, filtros e botão de cópia. |
 | Temas | Agrupa prompts por peças e revisão, fatos e documentos, estratégia processual, cliente e atendimento, gestão do escritório, marketing jurídico ético, automação e rotinas, pesquisa e validação. |
 | Complexidade editorial | Indica se a tarefa tem complexidade baixa, média ou alta; não é um valor literal de `reasoning.effort`. |
 | Guia de uso | Explica a diferença entre uso avulso, rotina permanente e automação supervisionada. |

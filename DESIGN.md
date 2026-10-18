@@ -6,7 +6,7 @@ Página pública em registro brand. Visual escuro, editorial, jurídico e tecnol
 
 ## Cena
 
-Um advogado revisa prompts em uma tela grande no fim do expediente, alternando entre análise jurídica cuidadosa e execução prática no Codex. O modo escuro reduz brilho e ajuda na leitura de prompts longos.
+Um advogado revisa prompts em uma tela grande no fim do expediente, alternando entre análise jurídica cuidadosa e execução prática no Cowork ou no Claude Code. O modo escuro reduz brilho e ajuda na leitura de prompts longos.
 
 ## Paleta
 

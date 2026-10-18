@@ -169,10 +169,10 @@ const htmlContent = `<!doctype html>
     <meta name="viewport" content="width=device-width" />
     <meta
       name="description"
-      content="Biblioteca pública com 41 prompts jurídicos verificáveis em pt-BR, com evidências, limites e revisão humana para a advocacia brasileira."
+      content="Biblioteca pública com ${totalPrompts} prompts jurídicos verificáveis em pt-BR, com evidências, limites e revisão humana para a advocacia brasileira."
     />
     <meta property="og:title" content="Manual de prompts jurídicos para IA" />
-    <meta property="og:description" content="41 prompts jurídicos curados com evidências, limites, regras de parada e revisão humana." />
+    <meta property="og:description" content="${totalPrompts} prompts jurídicos curados com evidências, limites, regras de parada e revisão humana." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="${canonicalUrl}" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -218,7 +218,7 @@ const htmlContent = `<!doctype html>
           <p class="eyebrow">Prompts verificáveis para advocacia brasileira</p>
           <h1 id="hero-title">Manual de prompts jurídicos para IA</h1>
           <p class="hero-lead">
-            Uma biblioteca pública com 41 prompts jurídicos curados para produzir trabalho útil, verificável e pronto para revisão humana.
+            Uma biblioteca pública com ${totalPrompts} prompts jurídicos curados para produzir trabalho útil, verificável e pronto para revisão humana.
           </p>
           <div class="hero-actions" aria-label="Ações principais">
             <a class="button primary" href="#biblioteca">Explorar biblioteca</a>
@@ -276,23 +276,24 @@ const htmlContent = `<!doctype html>
       <section class="method-update section-narrow" id="metodo" aria-labelledby="method-title">
         <div class="method-update-heading">
           <p class="method-kicker">Revisão metodológica · ${escapeHtml(promptMethod.reviewedOn)}</p>
-          <h2 id="method-title">Menos roteiro repetido. Mais contrato verificável.</h2>
+          <h2 id="method-title">Material primeiro, instrução depois, lacuna declarada.</h2>
           <p>
-            A biblioteca continua independente de fornecedor, mas seu contrato comum foi revisto para o ${escapeHtml(promptMethod.reviewedFor)}: resultado visível, evidência, limites de autonomia, formato de saída e condição de parada.
+            Os prompts funcionam em qualquer modelo, mas o contrato comum foi revisto para ${escapeHtml(promptMethod.reviewedFor)}, conforme a documentação oficial da Anthropic: seções em tags XML, documentos antes das instruções, regras com o motivo explícito e extensão proporcional à tarefa.
           </p>
         </div>
         <div>
           <ol class="method-changes">
-            <li><strong>Evidência rastreável</strong><span>Citar apenas fontes acessadas, ligar cada fonte ao ponto sustentado e declarar conflitos ou lacunas.</span></li>
-            <li><strong>Autonomia proporcional</strong><span>Analisar sem mutar; executar mudanças locais quando pedidas; confirmar ações externas, destrutivas ou que ampliem o escopo.</span></li>
-            <li><strong>Parada útil</strong><span>Solicitar o menor dado faltante, bloquear somente a conclusão dependente e continuar nas partes independentes.</span></li>
+            <li><strong>Estrutura em tags</strong><span>Material, objetivo, regras, entrega e parada em tags XML; documentos longos no topo, instruções depois.</span></li>
+            <li><strong>Evidência ancorada em trecho</strong><span>Localizar o trecho literal antes de analisar, citar só fontes acessadas e tratar o conteúdo dos documentos como dado, nunca como instrução.</span></li>
+            <li><strong>Autonomia proporcional</strong><span>No Cowork e no Claude Code, agir em passos locais e reversíveis; confirmar antes de mover, apagar, enviar ou protocolar.</span></li>
+            <li><strong>Sem verificação redundante</strong><span>Os modelos atuais revisam o próprio trabalho; o prompt pede apenas a lista do que não pôde ser verificado.</span></li>
           </ol>
           <p class="method-note">
-            A complexidade indicada em cada item é editorial e não equivale diretamente ao parâmetro <code>reasoning.effort</code>. Em uma migração de API, preserve primeiro o esforço atual e compare o mesmo nível com um abaixo em casos representativos.
+            A complexidade indicada em cada item é editorial. Como referência, tarefas de complexidade alta pedem o modelo mais capaz disponível com raciocínio estendido ativo; na API, o controle equivalente é o parâmetro <code>effort</code>. Compare o nível escolhido com um abaixo em casos representativos antes de fixá-lo.
           </p>
           <div class="method-links" aria-label="Documentação oficial da revisão">
-            <a href="${promptMethod.promptingGuide}" target="_blank" rel="noopener noreferrer">Guia de prompts do GPT-5.6</a>
-            <a href="${promptMethod.latestModelGuide}" target="_blank" rel="noopener noreferrer">Guia do modelo atual</a>
+            <a href="${promptMethod.promptingGuide}" target="_blank" rel="noopener noreferrer">Boas práticas de prompts para Claude</a>
+            <a href="${promptMethod.modelGuide}" target="_blank" rel="noopener noreferrer">Guia do Claude Opus 5</a>
           </div>
         </div>
       </section>
@@ -317,7 +318,7 @@ const htmlContent = `<!doctype html>
             <article>
               <span class="benefit-num">03</span>
               <h3>Uso em rotina</h3>
-              <p>Cada prompt ajuda a transformar uma tarefa recorrente em instrução persistente, rotina de repositório ou automação supervisionada.</p>
+              <p>Cada prompt pode virar instrução de Projeto, Skill do Cowork, CLAUDE.md de uma pasta de trabalho ou automação supervisionada.</p>
             </article>
           </div>
         </div>
@@ -361,16 +362,16 @@ const htmlContent = `<!doctype html>
         </div>
         <div class="guide-flow">
           <article class="guide-item">
-            <h3>01 · Uso avulso</h3>
-            <p>Copie o prompt, substitua os campos entre colchetes, anexe documentos quando necessário e peça a resposta em seções. Ideal para uma tarefa pontual no chat.</p>
+            <h3>01 · Chat</h3>
+            <p>Copie o prompt, cole ou anexe os documentos dentro de <code>&lt;material&gt;</code> e substitua os campos entre colchetes. Ative a pesquisa na web ou o conector jurídico quando a tarefa depender de lei ou jurisprudência atual.</p>
           </article>
           <article class="guide-item">
-            <h3>02 · Rotina permanente</h3>
-            <p>Quando a tarefa se repete, transforme o prompt em instrução persistente ou arquivo de orientação da rotina. Inclua modelos do escritório e critérios de aceite.</p>
+            <h3>02 · Projeto ou Skill</h3>
+            <p>Quando a tarefa se repete, salve o prompt como instrução de um Projeto no Claude.ai ou como Skill no Cowork, com os modelos do escritório e os critérios de aceite.</p>
           </article>
           <article class="guide-item">
-            <h3>03 · Automação supervisionada</h3>
-            <p>Use automações apenas para tarefas reversíveis ou revisáveis. Produções jurídicas, comunicações externas e decisões estratégicas exigem aprovação humana.</p>
+            <h3>03 · Cowork e Claude Code</h3>
+            <p>Para trabalhar sobre a pasta do caso, use os prompts marcados como Cowork ou Claude Code e registre as regras do escritório em um CLAUDE.md. Produções jurídicas, comunicações externas e decisões estratégicas exigem aprovação humana.</p>
           </article>
         </div>
       </section>
@@ -391,6 +392,14 @@ const htmlContent = `<!doctype html>
           <article>
             <h3>Evidência rastreável</h3>
             <p>Cite somente fontes consultadas, ligue cada uma à afirmação sustentada e separe fato, inferência, conflito, lacuna e risco.</p>
+          </article>
+          <article>
+            <h3>Fatos, não conclusões</h3>
+            <p>Informe datas, valores, tribunal e documentos, e cole o texto integral em vez de um resumo. "58 anos, 32 de contribuição, eletricista de 1994 a 2010" rende mais que "tem direito à aposentadoria".</p>
+          </article>
+          <article>
+            <h3>Etapas encadeadas</h3>
+            <p>Em caso complexo, rode intake, mapa de provas, pesquisa e peça em prompts separados, corrigindo cada resultado antes do próximo.</p>
           </article>
           <article>
             <h3>Regras de parada</h3>
@@ -423,7 +432,7 @@ const htmlContent = `<!doctype html>
         <span class="brand-mark" aria-hidden="true">§</span>
         <div>
           <h2>Manual de prompts jurídicos para IA</h2>
-          <p>Biblioteca pública em pt-BR com 41 prompts verificáveis para a advocacia brasileira. Método revisto em julho de 2026.</p>
+          <p>Biblioteca pública em pt-BR com ${totalPrompts} prompts verificáveis para a advocacia brasileira. Método revisto em outubro de 2026 para Claude.</p>
         </div>
       </div>
       <div class="footer-bottom">
