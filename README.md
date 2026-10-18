@@ -1,59 +1,72 @@
-# Prompts jurídicos para Claude
+<h1 align="center">Prompts jurídicos para Claude</h1>
 
-[![HTML5](https://img.shields.io/badge/HTML5-CSS3--JS-1b1b1b?style=flat-square)](#)
-[![GitHub Pages](https://img.shields.io/badge/deploy-GitHub%20Pages-123c31?style=flat-square)](https://carloslimadv.github.io/biblioteca-prompts-juridicos/)
-[![pt-BR](https://img.shields.io/badge/idioma-pt--BR-9a5a2e?style=flat-square)](#)
+<p align="center">
+  49 prompts gratuitos, em português, para o dia a dia do escritório.<br />
+  Copie, cole no Claude, preencha e revise. Não precisa entender de IA.
+</p>
 
+<p align="center">
+  <a href="https://carloslimadv.github.io/biblioteca-prompts-juridicos/"><strong>Abrir a biblioteca →</strong></a>
+</p>
 
-Biblioteca gratuita com 49 prompts jurídicos em português, prontos para copiar e colar no Claude. Feita para advogados que não entendem de IA: escolha a tarefa, copie, preencha os campos entre colchetes e revise o resultado.
+<p align="center">
+  <img src="docs/hero.jpg" alt="Página inicial da biblioteca de prompts jurídicos" width="820" />
+</p>
 
-**Acesse:** [carloslimadv.github.io/biblioteca-prompts-juridicos](https://carloslimadv.github.io/biblioteca-prompts-juridicos/)
+## Como usar
 
-<a href="https://www.buymeacoffee.com/carloslimadv" target="_blank" rel="noopener noreferrer">
-  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Compre-me um café" width="210" />
-</a>
+1. **Escolha o prompt da tarefa.** Os prompts têm nome de tarefa: "Petição inicial", "Leitura de intimação", "Primeira resposta no WhatsApp".
+2. **Cole no Claude e preencha.** Troque cada `[preencher]` pelo documento ou dado do caso. Pode anexar o PDF.
+3. **Revise antes de usar.** Onde aparecer `[CONFERIR EM FONTE OFICIAL]`, o Claude não conseguiu confirmar a informação.
 
-## Como os prompts estão organizados
+Para uma tarefa só, use a conversa do Claude. Para a tarefa que se repete, salve o prompt nas instruções de um Projeto. Para trabalhar sobre a pasta do caso no computador, use o Cowork.
 
-Os prompts aparecem por tema, na ordem de uso no dia a dia do escritório, e cada tema abre pelo prompt mais usado:
+<p align="center">
+  <img src="docs/lib.jpg" alt="Lista de prompts com filtros por tema e botão de copiar" width="820" />
+</p>
 
-1. Petições e recursos (começa pela petição inicial)
-2. Prazos e intimações
-3. Caso novo e documentos
-4. Estratégia
-5. Pesquisa
-6. Atendimento ao cliente
-7. Gestão do escritório
-8. Conteúdo e marketing
+## O que tem na biblioteca
 
-Cada item mostra o nome da tarefa, uma frase do que ele faz, o que ter em mãos e o botão "Copiar prompt". A ordem e os nomes ficam no catálogo de `src/data/prompts.ts`.
+| Tema | Comece por |
+| --- | --- |
+| Petições e recursos | Petição inicial, contestação, apelação, cumprimento de sentença |
+| Prazos e intimações | Leitura de intimação, prescrição e decadência |
+| Caso novo e documentos | Ficha do caso novo, revisão de contrato, análise de laudo |
+| Estratégia | Teste da tese, proposta de acordo, preparação para audiência |
+| Pesquisa | Jurisprudência com fonte, legislação vigente |
+| Atendimento ao cliente | Primeira resposta no WhatsApp, explicar andamento ou decisão |
+| Gestão do escritório | LGPD, finanças, reunião de sócios |
+| Conteúdo e marketing | Artigo jurídico, post e carrossel, anúncio pago |
 
-## Como os prompts foram escritos
+## Por que os prompts são mais seguros
 
-O texto comum dos prompts foi revisto em 18 de outubro de 2026 para Claude (conversa, Projetos, Cowork e Claude Code), com base nas [boas práticas oficiais da Anthropic](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) e no [guia do Claude Opus 5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5). A versão anterior, de 14 de julho de 2026, seguia o guia do GPT-5.6.
-
-- O material do caso vem primeiro e as instruções depois, cada parte em sua tag (`<material>`, `<objetivo>`, `<entrega>`…).
-- O prompt explica por que pede rigor: o resultado será assinado pelo advogado.
-- O Claude localiza o trecho do documento antes de analisar, cita só fontes que acessou e marca o resto como [CONFERIR EM FONTE OFICIAL].
-- Conteúdo de documentos é tratado como dado, nunca como instrução.
+- O Claude trabalha só com o que você enviou ou com fontes que de fato consultou.
+- Cada fato vem marcado: alegação, prova ou lacuna.
+- Comandos escondidos em documentos da outra parte são ignorados e apontados.
 - A resposta termina com a lista do que não pôde ser verificado.
-- No Cowork e no Claude Code, o Claude pede confirmação antes de mover, apagar, enviar ou protocolar.
+- No Cowork, o Claude pede licença antes de mover, apagar, enviar ou protocolar.
 
-## Desenvolvimento
+Os prompts seguem as [boas práticas oficiais da Anthropic](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices), revistas em outubro de 2026.
+
+## Cuidados
+
+A IA prepara; quem assina é você. Confira lei, jurisprudência, prazo e valor na fonte oficial, proteja o sigilo do cliente e passe conteúdo de redes pelo Provimento 205/2021 da OAB. Os prompts são material de apoio e não substituem a análise do advogado.
+
+## Para quem vai mexer no código
 
 ```bash
 npm ci
-npm run build   # gera dist/
+npm run dev     # gera a página e abre um servidor local
 npm test
-npm run dev     # build e servidor local
 ```
 
-A página é HTML, CSS e JavaScript puros, publicada no GitHub Pages a cada push na `main`. O visual segue `DESIGN.md`.
+- Prompts, nomes e ordem: `src/data/prompts.ts`. A ordem da lista `catalog` é a ordem da página.
+- Página: `build.js`, `styles/global.css` e `js/app.js`, em HTML, CSS e JavaScript puros.
+- Visual: `DESIGN.md`.
+- Publicação: GitHub Pages, automática a cada push na `main`.
 
-## O que este projeto não é
+---
 
-Não é consultoria jurídica automatizada, não gera peça para protocolo sem revisão e não promete resultado. Antes de usar qualquer resposta, o advogado confere fatos, documentos, fundamentos, prazos, valores, jurisprudência, sigilo, LGPD e regras de publicidade profissional.
-
-## Aviso jurídico
-
-Os prompts são material de apoio. Não substituem análise jurídica, revisão humana, consulta a fontes oficiais nem a responsabilidade profissional do advogado.
+<p align="center">
+  Gostou? <a href="https://www.buymeacoffee.com/carloslimadv">Apoie o projeto</a> · <a href="https://www.instagram.com/henriquesantana.adv/">Instagram</a>
+</p>
