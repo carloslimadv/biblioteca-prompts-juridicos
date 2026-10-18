@@ -2,9 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.querySelector('#prompt-search');
   const categoryButtons = [...document.querySelectorAll('[data-category-filter]')];
   const cards = [...document.querySelectorAll('.prompt-card')];
+  const groups = [...document.querySelectorAll('.prompt-group')];
   const count = document.querySelector('#results-count');
   const empty = document.querySelector('#empty-state');
   const promptsUrl = document.querySelector('main')?.dataset.promptsUrl ?? 'prompts.json';
+  const sectionIds = ['topo', 'biblioteca', 'como-usar', 'cuidados'];
   let promptMapPromise;
   let activeCategory = 'all';
 
@@ -31,23 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const pre = promptId ? document.getElementById(`prompt-text-${promptId}`) : null;
     if (!promptId || !pre || pre.dataset.loaded === 'true') return pre;
 
-    pre.textContent = 'Carregando prompt completo...';
     try {
       const promptMap = await getPromptMap();
       pre.textContent = promptMap.get(promptId) ?? 'Prompt não encontrado.';
       pre.dataset.loaded = 'true';
     } catch (err) {
-      pre.textContent = 'Erro ao carregar prompt. Tente novamente.';
+      pre.textContent = 'Erro ao carregar o prompt. Recarregue a página.';
     }
     return pre;
-  }
-
-  async function copyText(text) {
-    try {
-      await navigator.clipboard.writeText(text);
-    } catch (error) {
-      console.error('Failed to copy text: ', error);
-    }
   }
 
   function showCopyFeedback(button, label) {
@@ -57,12 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
     window.setTimeout(() => {
       button.textContent = original;
       button.classList.remove('copied');
-    }, 1400);
+    }, 1600);
   }
 
   function openPromptFromHash() {
     const promptId = window.location.hash.slice(1);
-    if (!promptId || ['biblioteca', 'guia', 'boas-praticas', 'limites', 'topo'].includes(promptId)) return;
+    if (!promptId || sectionIds.includes(promptId)) return;
 
     const card = document.getElementById(promptId);
     const details = card?.querySelector('details');
@@ -77,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return value
       .toString()
       .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[̀-ͯ]/g, '')
       .toLowerCase();
   }
 
@@ -86,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function applyFilters() {
-    const query = normalize(searchInput?.value ?? '');
+    const query = normalize(searchInput?.value ?? '').trim();
     let visible = 0;
 
     cards.forEach((card) => {
@@ -97,22 +90,23 @@ document.addEventListener('DOMContentLoaded', () => {
       if (shouldShow) visible += 1;
     });
 
+    groups.forEach((group) => {
+      const shown = group.querySelectorAll('.prompt-card:not([hidden])').length;
+      group.toggleAttribute('hidden', shown === 0);
+      const label = group.querySelector('[data-group-count]');
+      if (label) label.textContent = `${shown} prompt${shown === 1 ? '' : 's'}`;
+    });
+
     if (count) count.textContent = `${visible} prompt${visible === 1 ? '' : 's'} encontrado${visible === 1 ? '' : 's'}`;
     if (empty) empty.hidden = visible !== 0;
   }
 
-  function bindFilter(buttons, datasetKey, setActive) {
-    buttons.forEach((button) => {
-      button.addEventListener('click', () => {
-        setActive(button.dataset[datasetKey] ?? 'all');
-        buttons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
-        applyFilters();
-      });
+  categoryButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      activeCategory = button.dataset.categoryFilter ?? 'all';
+      categoryButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+      applyFilters();
     });
-  }
-
-  bindFilter(categoryButtons, 'categoryFilter', (value) => {
-    activeCategory = value;
   });
 
   searchInput?.addEventListener('input', applyFilters);
@@ -126,30 +120,23 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-copy-prompt]').forEach((button) => {
     button.addEventListener('click', async () => {
       const target = await hydratePrompt(button.closest('.prompt-card'));
-      if (!target) return;
+      if (!target || target.dataset.loaded !== 'true') return;
 
-      const text = target.textContent ?? '';
-      await copyText(text);
-      showCopyFeedback(button, 'Copiado');
-    });
-  });
-
-  document.querySelectorAll('[data-copy-link]').forEach((button) => {
-    button.addEventListener('click', async () => {
-      const promptId = button.dataset.promptId;
-      if (!promptId) return;
-
-      const url = new URL(window.location.href);
-      url.hash = promptId;
-      await copyText(url.toString());
-      showCopyFeedback(button, 'Link copiado');
+      try {
+        await navigator.clipboard.writeText(target.textContent ?? '');
+        showCopyFeedback(button, 'Copiado');
+      } catch (error) {
+        console.error('Failed to copy text: ', error);
+        target.closest('.prompt-text')?.setAttribute('open', '');
+        showCopyFeedback(button, 'Copie o texto abaixo');
+      }
     });
   });
 
   openPromptFromHash();
   window.addEventListener('hashchange', openPromptFromHash);
 
-  const sections = [...document.querySelectorAll('#biblioteca, #guia, #boas-praticas, #limites')];
+  const sections = sectionIds.slice(1).map((id) => document.getElementById(id)).filter(Boolean);
   const navLinks = [...document.querySelectorAll('.nav a')];
   const linkById = new Map(navLinks.map((link) => [link.getAttribute('href')?.slice(1), link]));
 
